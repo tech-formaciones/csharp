@@ -50,8 +50,36 @@ class Program
 
         // Las variables con tipo implícito VAR siempre deben inicializar
         var alumno2 = new Alumno();
+        alumno2.Nombre = "María José";
+
+        Console.WriteLine($"Tipo 2: {alumno2.GetType()}");
+        Console.WriteLine($"Nombre 2: {alumno2.Nombre}" + Environment.NewLine);
+
+        // Object tiene la capacidad de contener cualquier tipo de dato, se comprueba en diseño
+        // No permite acceder a los miembros del objeto, para accder tenemos que aplicar la conversión
+        Object alumno3 = new Alumno();
+        ((Alumno)alumno3).Nombre = "Isabel";
+        // alumno3.Nombre = "Isabel"; <- No funciona por ser un Object
+
+        Console.WriteLine($"Tipo 3: {alumno3.GetType()}");
+        Console.WriteLine($"Nombre 3: {((Alumno)alumno3).Nombre}\n");
+        // Console.WriteLine($"Nombre 3: {alumno3.Nombre}"); <- No funciona por ser un Object
+
+        // dynamic tiene la capacidad de contener cualquier tipo de datos, se comprueba en ejecución
+        dynamic alumno4 = new Alumno();
+        alumno4.Nombre = "Antonio José";
+        alumno4.Edad = 30;
+
+        Console.WriteLine($"Tipo 4: {alumno4.GetType()}");
+        Console.WriteLine($"Nombre 4: {alumno4.Nombre}" + Environment.NewLine);
 
 
+        // Sintaxis C# de versiones más actuales
+        Alumno alumno5 = new();
+        alumno5.Nombre = "Borja";
+
+        Console.WriteLine($"Tipo 5: {alumno5.GetType()}");
+        Console.WriteLine($"Nombre 5: {alumno5.Nombre}" + Environment.NewLine);
     }
     
 } 
