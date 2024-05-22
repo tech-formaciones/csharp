@@ -369,6 +369,7 @@ class Program
 
         Console.ForegroundColor = (reserva.fumador == true) ? ConsoleColor.Red : ConsoleColor.Green;
         Console.ForegroundColor = (reserva.fumador) ? ConsoleColor.Red : ConsoleColor.Green;
+        
         string fuma = (reserva.fumador) ? "Sí" : "No";
         Console.WriteLine(fuma);
 
@@ -379,9 +380,9 @@ class Program
         Console.ForegroundColor = ConsoleColor.Yellow;
 
         Console.ForegroundColor = (reserva.fumador) ? ConsoleColor.Red : ConsoleColor.Green;
+        
         Console.WriteLine((reserva.fumador) ? "Sí" : "No");
 
         Console.ForegroundColor = ConsoleColor.Gray;
     }
-
 }
