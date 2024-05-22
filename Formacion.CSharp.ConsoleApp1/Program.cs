@@ -12,50 +12,52 @@ class Program
     /// </summary>
     static void Main(string[] args)
     {
-        while (true)
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("".PadRight(56, '*'));
-            Console.WriteLine("*  DEMO Y EJERCICIOS".PadRight(55) + "*");
-            Console.WriteLine("".PadRight(56, '*'));
-            Console.WriteLine("*".PadRight(55) + "*");
-            Console.WriteLine("*  1. Declaración de Variables".PadRight(55) + "*");
-            Console.WriteLine("*  2. Conversión de Variables".PadRight(55) + "*");
-            Console.WriteLine("*  9. Salir".PadRight(55) + "*");
-            Console.WriteLine("*".PadRight(55) + "*");
-            Console.WriteLine("".PadRight(56, '*'));
+        SentenciasDeControl();
+        
+        // while (true)
+        // {
+        //     Console.Clear();
+        //     Console.ForegroundColor = ConsoleColor.Yellow;
+        //     Console.WriteLine("".PadRight(56, '*'));
+        //     Console.WriteLine("*  DEMO Y EJERCICIOS".PadRight(55) + "*");
+        //     Console.WriteLine("".PadRight(56, '*'));
+        //     Console.WriteLine("*".PadRight(55) + "*");
+        //     Console.WriteLine("*  1. Declaración de Variables".PadRight(55) + "*");
+        //     Console.WriteLine("*  2. Conversión de Variables".PadRight(55) + "*");
+        //     Console.WriteLine("*  9. Salir".PadRight(55) + "*");
+        //     Console.WriteLine("*".PadRight(55) + "*");
+        //     Console.WriteLine("".PadRight(56, '*'));
 
-            Console.WriteLine(Environment.NewLine);
-            Console.Write("   Opción: ");
+        //     Console.WriteLine(Environment.NewLine);
+        //     Console.Write("   Opción: ");
 
-            Console.ForegroundColor = ConsoleColor.Cyan;
+        //     Console.ForegroundColor = ConsoleColor.Cyan;
 
-            int.TryParse(Console.ReadLine(), out int opcion);
-            switch (opcion)
-            {
-                case 1:
-                    Console.Clear();
-                    DeclaracionVariables();
-                    break;
-                case 2:
-                    Console.Clear();
-                    ConversionVariables();
-                    break;                    
-                case 9:
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    return;
-                default:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(Environment.NewLine + $"La opción {opcion} no es valida.");
-                    break;
-            }
+        //     int.TryParse(Console.ReadLine(), out int opcion);
+        //     switch (opcion)
+        //     {
+        //         case 1:
+        //             Console.Clear();
+        //             DeclaracionVariables();
+        //             break;
+        //         case 2:
+        //             Console.Clear();
+        //             ConversionVariables();
+        //             break;                    
+        //         case 9:
+        //             Console.ForegroundColor = ConsoleColor.Gray;
+        //             return;
+        //         default:
+        //             Console.ForegroundColor = ConsoleColor.Red;
+        //             Console.WriteLine(Environment.NewLine + $"La opción {opcion} no es valida.");
+        //             break;
+        //     }
 
-            Console.WriteLine(Environment.NewLine);
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Pulsa una tecla para continuar...");
-            Console.ReadKey();
-        }
+        //     Console.WriteLine(Environment.NewLine);
+        //     Console.ForegroundColor = ConsoleColor.White;
+        //     Console.WriteLine("Pulsa una tecla para continuar...");
+        //     Console.ReadKey();
+        // }
     }
 
     /// <summary>
@@ -178,7 +180,124 @@ class Program
         num1 = Convert.ToByte(num3);
 
         Console.WriteLine("Después de las conversiones");
-        Console.WriteLine($"Num 1 (byte): {num1} - Num 2 (int): {num2} - Num 3 (string): {num3}");
+        Console.WriteLine($"Num 1 (byte): {num1} - Num 2 (int): {num2} - Num 3 (string): {num3}\n");
+
+
+        ///////////////////////////////////////////////////////////////                
+        // Transformaciones de STRING a cualquier tipo de dato númerico
+        ///////////////////////////////////////////////////////////////                
+
+        // Utilizando los métodos del objeto CONVERT
+        num1 = Convert.ToByte(num3);
+        num2 = Convert.ToInt32(num3);
+
+        // Conversión explicita, utilizando el método Parse
+        num1 = byte.Parse(num3);
+
+        // Conversión explicita, utilizando el método TryParse
+        byte.TryParse(num3, out num1);
+
+        // El método .TryParse retorna True/False dependiendo de si la transformación es posible
+        // El resultao de la transformación de almacena en num4, siendo 0 si la tranformación no es posible
+        num3 = "102";
+        int num4;
+        bool result = int.TryParse(num3, out num4);
+
+        // En este ejemplo solo comprobamos si la transformación es posible.
+        // Mediante [out _] indicamos que no queremos el resultado de la transformación  
+        var esEntero = int.TryParse(num3, out _);
+
+        Console.WriteLine($"Resultado: {result} - Valor Num 4: {num4}");
+        Console.WriteLine($"Resultado Num 5: {esEntero}");
+    }
+
+
+    static void SentenciasDeControl()
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.White;
+
+        // Uso de IF/ELSE
+        Reserva reserva = new Reserva();
+        
+        Console.Write("ID de la Reserva: ");
+        reserva.id = Console.ReadLine();
+
+        Console.Write("Nombre del Cliente: ");
+        reserva.cliente = Console.ReadLine();
+
+        Console.Write("Tipo de Reserva: (100, 200, 300 o 400) ");
+        // Opcion A
+        string respuesta = Console.ReadLine();
+        int.TryParse(respuesta, out reserva.tipo);
+
+        // Opcion B
+        //int.TryParse(Console.ReadLine(), out reserva.tipo);
+
+        Console.Write("Es Fumador ? (Sí o No) ");
+        string fumador = Console.ReadLine();
+
+        // Opción 1, utilizando IF/ELSE
+        if (fumador.ToLower().Trim() == "si" || fumador.ToLower().Trim() == "sí")
+        {
+            reserva.fumador = true;
+        }
+        else
+        {
+            reserva.fumador = false;
+        }
+
+        // Opción 2, utilizando IF/ELSE IF/ELSE
+        if (fumador.ToLower().Trim() == "si" || fumador.ToLower().Trim() == "sí")
+        {
+            reserva.fumador = true;
+        }
+        else if (fumador.ToLower().Trim() == "no")
+        {
+            reserva.fumador = false;
+        }
+        else 
+        {
+            reserva.fumador = false;
+            Console.WriteLine($"El valor {fumador} no es valido, pero se asigna habitación de no fumador.");
+        }
+
+        // Opción 3, utilizando IF/ELSE (sin bloques)
+        if (fumador.ToLower().Trim() == "si" || fumador.ToLower().Trim() == "sí") reserva.fumador = true;        
+        else reserva.fumador = false;
+
+        // Opción 4a, asignación condicional con ? :
+        // Siempre un IF/ELSE y asignación de un valor (no ejecutan sentencias)
+        reserva.fumador = (fumador.ToLower().Trim() == "si" || fumador.ToLower().Trim() == "sí") ? true : false;
+
+        // Opción 4b, asignación condicional con ? :
+        // Siempre un IF/ELSE y asignación de un valor (no ejecutan sentencias)
+        reserva.fumador = (fumador.ToLower().Trim() == "si" || fumador.ToLower().Trim() == "sí");
+
+        // Opción 5, utilizando SWITCH
+        switch(fumador.ToLower().Trim())
+        {
+            case "si":
+                reserva.fumador = true;
+                break;
+            case "sí":
+                reserva.fumador = true;
+                break;
+            case "no":
+                reserva.fumador = false;
+                break;
+            default:
+                reserva.fumador = false;
+                Console.WriteLine($"El valor {fumador} no es valido, pero se asigna habitación de no fumador.");
+                break;
+        }
+        
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write("ID Reserva: ".PadRight(15, ' '));
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($"{reserva.id}");
 
     }
-} 
+
+}
