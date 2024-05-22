@@ -294,10 +294,94 @@ class Program
         
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.White;
-        Console.Write("ID Reserva: ".PadRight(15, ' '));
+        Console.Write("ID Reserva: ".PadLeft(15, ' '));
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"{reserva.id}");
 
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write("Cliente: ".PadLeft(15, ' '));
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine(reserva.cliente);
+
+        // Pintar el tipo de habitación
+        // 100 -> Habitación individual
+        // 200 -> Habitación doble
+        // 300 -> Habitación Junior Suite
+        // 400 -> Habitación Suite (cyan)
+        // xxx -> xxx, tipo de habitación desconocido (rojo)
+
+
+        // IF/ELSEIF/ELSE
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write("Tipo: ".PadLeft(15, ' '));
+        Console.ForegroundColor = ConsoleColor.Yellow;
+
+        if (reserva.tipo == 100) Console.WriteLine("Habitación Individual");
+        else if (reserva.tipo == 200) Console.WriteLine("Habitación Doble");
+        else if (reserva.tipo == 300) Console.WriteLine("Habitación Junior Suite");
+        else if (reserva.tipo == 400)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Habitación Suite");
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"{reserva.tipo}, desconocido");
+        }
+
+        // SWITCH
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write("Tipo: ".PadLeft(15, ' '));
+        Console.ForegroundColor = ConsoleColor.Yellow;
+
+        switch (reserva.tipo)
+        {
+            case 100:
+                Console.WriteLine("Habitación Individual");
+                break;
+            case 200:
+                Console.WriteLine("Habitación Doble");
+                break;
+            case 300:
+                Console.WriteLine("Habitación Junior Suite");
+                break;
+            case 400:
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Habitación Suite");
+                break;
+            default:
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"{reserva.tipo}, desconocido");
+                break;
+        }
+
+        // Pintar si es fumador
+        // true -> Sí (rojo)
+        // false -> No (verde)
+
+        // Asignador condicional (condición) ? "Sí" : "No"
+
+        // Opción A
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write("Fumador: ".PadLeft(15, ' '));
+        Console.ForegroundColor = ConsoleColor.Yellow;
+
+        Console.ForegroundColor = (reserva.fumador == true) ? ConsoleColor.Red : ConsoleColor.Green;
+        Console.ForegroundColor = (reserva.fumador) ? ConsoleColor.Red : ConsoleColor.Green;
+        string fuma = (reserva.fumador) ? "Sí" : "No";
+        Console.WriteLine(fuma);
+
+
+        // Opción B
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write("Fumador: ".PadLeft(15, ' '));
+        Console.ForegroundColor = ConsoleColor.Yellow;
+
+        Console.ForegroundColor = (reserva.fumador) ? ConsoleColor.Red : ConsoleColor.Green;
+        Console.WriteLine((reserva.fumador) ? "Sí" : "No");
+
+        Console.ForegroundColor = ConsoleColor.Gray;
     }
 
 }
