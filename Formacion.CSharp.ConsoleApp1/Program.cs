@@ -12,7 +12,7 @@ class Program
     /// </summary>
     static void Main(string[] args)
     {
-        SentenciasDeControl();
+        SentenciasDeRepeticion();
         
         // while (true)
         // {
@@ -368,21 +368,41 @@ class Program
         Console.ForegroundColor = ConsoleColor.Yellow;
 
         Console.ForegroundColor = (reserva.fumador == true) ? ConsoleColor.Red : ConsoleColor.Green;
-        Console.ForegroundColor = (reserva.fumador) ? ConsoleColor.Red : ConsoleColor.Green;
-        
+        Console.ForegroundColor = (reserva.fumador) ? ConsoleColor.Red : ConsoleColor.Green;     
         string fuma = (reserva.fumador) ? "Sí" : "No";
         Console.WriteLine(fuma);
-
-
+        
         // Opción B
         Console.ForegroundColor = ConsoleColor.White;
         Console.Write("Fumador: ".PadLeft(15, ' '));
         Console.ForegroundColor = ConsoleColor.Yellow;
 
-        Console.ForegroundColor = (reserva.fumador) ? ConsoleColor.Red : ConsoleColor.Green;
-        
+        Console.ForegroundColor = (reserva.fumador) ? ConsoleColor.Red : ConsoleColor.Green;       
         Console.WriteLine((reserva.fumador) ? "Sí" : "No");
 
         Console.ForegroundColor = ConsoleColor.Gray;
     }
+
+    static void SentenciasDeRepeticion()
+    {
+        string[] frutas = {"naranja", "limón", "pomelo", "líma"};
+        object[] objetos = {"naranja", 10, new Alumno(), new Reserva()};
+
+        // Recorremos una colección con un contador FOR
+        // Mostramos el contenido de Array utilizando la posición de los elementos
+        // Python: for i in range(0, i < len(frutas), i += 1)
+
+        // Opción 1a
+        for(int i = 0; i < frutas.Length; i += 1)
+        {
+            Console.WriteLine($"Posición {i} -> {frutas[i]}");
+        }
+        Console.WriteLine("");
+
+        // Opcion 1b
+        for (int i = 0; i < frutas.Length; i += 1) Console.WriteLine($"Posición {i} -> {frutas[i]}");
+
+        Console.WriteLine("");
+    }
+
 }
