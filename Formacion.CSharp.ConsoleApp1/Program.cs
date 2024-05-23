@@ -12,7 +12,7 @@ class Program
     /// </summary>
     static void Main(string[] args)
     {
-        SentenciasDeRepeticion();
+        ControlDeExcepciones();
         
         // while (true)
         // {
@@ -512,4 +512,65 @@ class Program
         Console.WriteLine($"Número mayor: {numeros.Max()}");
         Console.WriteLine($"Número menor: {numeros.Min()}");
     }
+
+    static void ControlDeExcepciones()
+    {
+
+        // EJEMPLO EN PYTHON
+        // numero1 = 5
+        // numero2 = 100
+
+        // try:    
+        //     numero3 = numero2 / numero1
+        //     print(f"Valor de número 3: {numero3}")
+
+        //     f = open("miFichero.txt")
+        // except ZeroDivisionError as err:
+        //     print(f"-> {err}")
+        //     print(f"-> {type(err)}")
+        // except FileNotFoundError as err:
+        //     print(f"-> {err}")
+        //     print(f"-> {type(err)}")
+        // except Exception as err:
+        //     print(f"{err}")
+        //     print(f"{type(err)}")
+        // finally:
+        //     print(f"F I N")
+
+
+        int numero1 = 5;
+        int numero2 = 100;
+
+        try
+        {
+            int numero3 = numero2 / numero1;
+            Console.WriteLine($"El valor de número 3 es {numero3}");
+        }
+        catch (DivideByZeroException err)
+        {
+            Console.WriteLine("Excepción específica");
+            Console.WriteLine($"Mensaje: {err.Message}");
+            Console.WriteLine($"Tipo: {err.GetType()}");
+        }
+        catch (FileNotFoundException err)
+        {
+            Console.WriteLine("Excepción específica");
+            Console.WriteLine($"Mensaje: {err.Message}");
+            Console.WriteLine($"Tipo: {err.GetType()}");
+        }
+        catch (Exception err)
+        {   
+            Console.WriteLine("Excepción genérica");
+            Console.WriteLine($"Mensaje: {err.Message}");
+            Console.WriteLine($"Tipo: {err.GetType()}");
+            //throw;
+        }
+        finally
+        {
+            Console.WriteLine("FIN");
+        }
+
+
+    }
+
 }
