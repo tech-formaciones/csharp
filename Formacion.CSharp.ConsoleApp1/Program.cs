@@ -401,8 +401,115 @@ class Program
 
         // Opcion 1b
         for (int i = 0; i < frutas.Length; i += 1) Console.WriteLine($"Posición {i} -> {frutas[i]}");
-
         Console.WriteLine("");
-    }
 
+        // Recorremos una colección utilizando un FOREACH
+        // Mostramos el contenido de Array utilizando los valores elementos
+        // Python: for fruta in frutas
+        foreach (string fruta in frutas)
+        {
+            Console.WriteLine($" -> {fruta}");
+        }
+        Console.WriteLine("");
+
+        // Recorremos una colección utilizando un WHILE
+        int contador = 0;
+        while (contador < frutas.Length)
+        {
+            Console.WriteLine($"Posición {contador} -> {frutas[contador]}");
+            contador++;
+        }
+        Console.WriteLine("");
+
+        contador = 0;
+        while (true)
+        {
+            Console.WriteLine($"Posición {contador} -> {frutas[contador]}");
+            contador++;
+            if (contador >= frutas.Length) break;
+        }
+        Console.WriteLine("");
+
+        // Recorremos una colección utilizando un DO/WHILE
+        contador = 0;
+        do
+        {
+            Console.WriteLine($"Posición {contador} -> {frutas[contador]}");
+            contador++;
+        } while (contador < frutas.Length);
+        Console.WriteLine("");
+
+
+        //////////////////////////////////////////////////////////////////////////////////
+
+        decimal[] numeros = {10, 5, 345, 52, 13, 1000, 83};
+
+        decimal suma = 0;
+        decimal max = 0;
+        decimal min = numeros[0];
+
+        // FOR
+        for (int i = 0; i < numeros.Length; i = i + 1)
+        {
+            suma = suma + numeros[i];
+            if (numeros[i] > max) max = numeros[i];
+            if (numeros[i] < min) min = numeros[i];
+        }
+
+        // Mostramos la suma y la media, el número mayor y el menor 
+        Console.WriteLine("CALCULADO CON FOR");
+        Console.WriteLine($"Suma total: {suma}");
+        Console.WriteLine($"Media: {(suma / numeros.Length).ToString("N2")}");
+        Console.WriteLine($"Número mayor: {max}");
+        Console.WriteLine($"Número menor: {min}");
+        Console.WriteLine("");
+
+        // FOREACH
+        suma = 0;
+        max = 0;
+        min = numeros[0];
+
+        foreach (var num in numeros)
+        {
+            suma += num;
+            if (num > max) max = num;
+            if (num < min) min = num;
+        }
+
+        Console.WriteLine("CALCULADO CON FOREACH");
+        Console.WriteLine($"Suma total: {suma}");
+        Console.WriteLine($"Media: {(suma / numeros.Length).ToString("N2")}");
+        Console.WriteLine($"Número mayor: {max}");
+        Console.WriteLine($"Número menor: {min}");
+        Console.WriteLine("");
+
+        // WHILE
+        suma = 0;
+        max = 0;
+        min = numeros[0];
+
+        contador = 0;
+        while (contador < numeros.Length)
+        {
+            suma += numeros[contador];
+            if (numeros[contador] > max) max = numeros[contador];
+            if (numeros[contador] < min) min = numeros[contador];
+            contador++;
+        }
+
+        Console.WriteLine("CALCULADO CON WHILE");
+        Console.WriteLine($"Suma total: {suma}");
+        Console.WriteLine($"Media: {(suma / numeros.Length).ToString("N2")}");
+        Console.WriteLine($"Número mayor: {max}");
+        Console.WriteLine($"Número menor: {min}");
+        Console.WriteLine("");
+
+
+        // Ejemplo de obtener información con métedos de LINQ
+        Console.WriteLine("CALCULADO CON LINQ");
+        Console.WriteLine($"Suma total: {numeros.Sum()}");
+        Console.WriteLine($"Media: {numeros.Average().ToString("N2")}");
+        Console.WriteLine($"Número mayor: {numeros.Max()}");
+        Console.WriteLine($"Número menor: {numeros.Min()}");
+    }
 }
