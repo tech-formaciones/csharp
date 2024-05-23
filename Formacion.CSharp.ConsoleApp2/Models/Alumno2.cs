@@ -1,6 +1,6 @@
 namespace Formacion.CSharp.ConsoleApp2.Models;
 
-public class Alumno2
+public struct Alumno2
 {
     private string nombre;
     public string Nombre
@@ -17,5 +17,4 @@ public class Alumno2
     }
     public string Apellidos { get; set; }
     public int Edad { get; set; }
-
 }

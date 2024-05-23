@@ -6,17 +6,23 @@ class Program
 {
     static void Main(string[] args)
     {
-        var alumno = new Alumno();
-        // alumno.Nombre = "  Borja ";
-        // alumno.Apellidos = "Cabeza";
-        // alumno.Edad = 30;
-        // alumno.CambiaEdad = 27;
-        int n = 25;
+        var alumno = new Alumno() { Nombre = "Borja", Edad = 30};
 
-        alumno.MetodoTres(n, "Borja", param4: "nuevo valor");
+        Console.WriteLine($"Nombre: {alumno.Nombre} - Edad: {alumno.Edad}");
+        Transformar(alumno);
+        Console.WriteLine($"Nombre: {alumno.Nombre} - Edad: {alumno.Edad}");
 
-        Console.WriteLine($"Nombre: {alumno.Nombre} {alumno.Apellidos}");
-        Console.WriteLine($"Edad: {alumno.Edad}");
-        Console.WriteLine($"Nombre: {alumno.NombreCompleto}");
+    }
+
+    static void Transformar(Alumno2 alumno)
+    {
+        alumno.Edad = 40;
+        Console.WriteLine($"Ahora la Edad es {alumno.Edad}");
+    }
+
+    static void Transformar(Alumno alumno)
+    {
+        alumno.Edad = 40;
+        Console.WriteLine($"Ahora la Edad es {alumno.Edad}");
     }
 }
