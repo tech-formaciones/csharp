@@ -12,7 +12,16 @@ class Program
     /// </summary>
     static void Main(string[] args)
     {
-        ControlDeExcepciones();
+
+        try
+        {
+            ControlDeExcepciones();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"MAIN: {e.Message}");
+        }
+
         
         // while (true)
         // {
@@ -563,14 +572,56 @@ class Program
             Console.WriteLine("Excepción genérica");
             Console.WriteLine($"Mensaje: {err.Message}");
             Console.WriteLine($"Tipo: {err.GetType()}");
-            //throw;
         }
         finally
         {
             Console.WriteLine("FIN");
         }
+        Console.WriteLine("");
 
+        /*
+        try:
+            print("Nivel 1")
 
+            print("Inicio Nivel 2")
+
+            try:
+                print("Nivel 2")
+                print(100/0)
+            except Exception as err:
+                raise
+                print(f"Nivel 2: {err}")
+            finally:
+                print("Fin Nivel 2")
+        except Exception as err:
+            print(f"Nivel 1: {err}")
+        */
+        try
+        {
+            Console.WriteLine("NIVEL 1");
+
+            Console.WriteLine(" -> Inicio Nivel 2");
+            try
+            {
+                Console.WriteLine("NIVEL 2");
+                int n1 = 0;
+                int n2 = 100;
+                int n3 = n2 / n1;
+            }
+            catch (Exception e)
+            {                
+                Console.WriteLine($"Error 2: {e.Message}");
+                throw new Exception("No se puede dividir por cero");
+            }
+            finally
+            {
+                Console.WriteLine(" -> Fin Nivel 2");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error 1: {e.Message}");
+            throw;
+        }
     }
-
 }
