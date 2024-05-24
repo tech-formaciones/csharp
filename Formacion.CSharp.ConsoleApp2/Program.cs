@@ -7,24 +7,33 @@ class Program
     static void Main(string[] args)
     {
 
-        Alumno2 alumno = new Alumno2() { Nombre = "Borja", Edad = 30};
+        Alumno alumno = new Alumno() { Nombre = "Borja", Edad = 30};
+        alumno.DiaTutoria = Dias.Miercoles;
+        alumno.Estado = Estados.Operativo;
+
+        int num = 3;
+        Console.WriteLine($"Demo: {(Dias)num}");
 
         Console.WriteLine($"Nombre: {alumno.Nombre} - Edad: {alumno.Edad}");
-        Transformar(ref alumno);
-        Console.WriteLine($"Nombre: {alumno.Nombre} - Edad: {alumno.Edad}");
+        Console.WriteLine($"Tutoria los {alumno.DiaTutoria} {(int)alumno.DiaTutoria}");
+        Console.WriteLine($"Estado: {alumno.Estado} {(int)alumno.Estado}");
 
-        int numero = 10;
-        Transformar(ref numero);
-        Console.WriteLine($"Número: {numero}");
+        //Console.WriteLine($"Nombre: {alumno.Nombre} - Edad: {alumno.Edad}");
+        //Transformar(alumno);
+        //Console.WriteLine($"Nombre: {alumno.Nombre} - Edad: {alumno.Edad}");
 
-        string num = "DDD10";
-        int num2 = 0;
-        string texto = "";
-        bool resultado = TryParseToInt(num, out num2, out texto);
+        //int numero = 10;
+        //Transformar(ref numero);
+        //Console.WriteLine($"Número: {numero}");
 
-        Console.WriteLine($"Resultado: {resultado}");
-        Console.WriteLine($"Resultado: {texto}");
-        Console.WriteLine($"Valor: {num2}");
+        //string num = "DDD10";
+        //int num2 = 0;
+        //string texto = "";
+        //bool resultado = TryParseToInt(num, out num2, out texto);
+
+        //Console.WriteLine($"Resultado: {resultado}");
+        //Console.WriteLine($"Resultado: {texto}");
+        //Console.WriteLine($"Valor: {num2}");
     }
 
     static public bool TryParseToInt(string num, out int result, out string demo) 
@@ -45,8 +54,6 @@ class Program
             return false;
         }
     }
-
-
     static public void Transformar(ref int n)
     {
         n = 100;
