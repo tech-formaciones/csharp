@@ -52,7 +52,6 @@ public class Alumno
         }
     }
 
-
     // Miembro: Métodos con tipo VOID, no retorna nada
     public void MetodoUno()
     {
@@ -91,4 +90,5 @@ public class Alumno
         this.nombre = nombre;
         this.edad = edad;
     }
+
 }
