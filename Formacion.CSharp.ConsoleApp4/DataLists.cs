@@ -52,7 +52,8 @@ namespace Formacion.CSharp.ConsoleApp4
     /// </summary>
     public static class DataLists
     {
-        private static List<Cliente> _listaClientes = new List<Cliente>() {
+        private static List<Cliente> _listaClientes = new List<Cliente>() 
+        {
             new Cliente { Id = 1,   Nombre = "Carlos Gonzalez Rodriguez",   FechaNac = new DateTime(1980, 10, 10) },
             new Cliente { Id = 2,   Nombre = "Luis Gomez Fernandez",        FechaNac = new DateTime(1961, 4, 20) },
             new Cliente { Id = 3,   Nombre = "Ana Lopez Diaz ",             FechaNac = new DateTime(1947, 1, 15) },
@@ -64,10 +65,10 @@ namespace Formacion.CSharp.ConsoleApp4
         {
             new Producto { Id = 1,      Descripcion = "Boligrafo",          Precio = 0.35f },
             new Producto { Id = 2,      Descripcion = "Cuaderno grande",    Precio = 1.5f },
-            new Producto { Id = 3,      Descripcion = "Cuaderno pequeño",   Precio = 1 },
+            new Producto { Id = 3,      Descripcion = "Cuaderno pequeño",   Precio = 1f },
             new Producto { Id = 4,      Descripcion = "Folios 500 uds.",    Precio = 3.55f },
             new Producto { Id = 5,      Descripcion = "Grapadora",          Precio = 5.25f },
-            new Producto { Id = 6,      Descripcion = "Tijeras",            Precio = 2 },
+            new Producto { Id = 6,      Descripcion = "Tijeras",            Precio = 2f },
             new Producto { Id = 7,      Descripcion = "Cinta adhesiva",     Precio = 1.10f },
             new Producto { Id = 8,      Descripcion = "Rotulador",          Precio = 0.75f },
             new Producto { Id = 9,      Descripcion = "Mochila escolar",    Precio = 12.90f },
