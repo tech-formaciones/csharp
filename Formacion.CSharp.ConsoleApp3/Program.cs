@@ -1,14 +1,79 @@
 ﻿using System.Collections;
+using Formacion.CSharp.ConsoleApp3.Models;
 
 namespace Formacion.CSharp.ConsoleApp3
 {
-    internal class Program
+    class Program
     {
+        ///<summary>
+        ///Método Main inicio del programa
+        ///</summary>
         static void Main(string[] args)
         {
-            Lists();
+            while (true)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("".PadRight(56, '*'));
+                Console.WriteLine("*  DEMO Y EJERCICIOS".PadRight(55) + "*");
+                Console.WriteLine("".PadRight(56, '*'));
+                Console.WriteLine("*".PadRight(55) + "*");
+                Console.WriteLine("*  1. Uso Arrays".PadRight(55) + "*");
+                Console.WriteLine("*  2. Uso ArrayList".PadRight(55) + "*");
+                Console.WriteLine("*  3. Uso Hashtable".PadRight(55) + "*");
+                Console.WriteLine("*  4. Uso List".PadRight(55) + "*");
+                Console.WriteLine("*  5. Uso Dictionary".PadRight(55) + "*");
+                Console.WriteLine("*  6. Items como Referencia".PadRight(55) + "*");
+                Console.WriteLine("*  9. Salir".PadRight(55) + "*");
+                Console.WriteLine("*".PadRight(55) + "*");
+                Console.WriteLine("".PadRight(56, '*'));
+
+                Console.WriteLine(Environment.NewLine);
+                Console.Write("   Opción: ");
+
+                Console.ForegroundColor = ConsoleColor.Cyan;
+
+                int.TryParse(Console.ReadLine(), out int opcion);
+                switch (opcion)
+                {
+                    case 1:
+                        Console.Clear();
+                        Arrays();
+                        break;
+                    case 2:
+                        Console.Clear();
+                        ArrayList();
+                        break;
+                    case 3:
+                        Console.Clear();
+                        Hashtable();
+                        break;
+                    case 4:
+                        Console.Clear();
+                        List();
+                        break;
+                    case 5:
+                        Console.Clear();
+                        Dictionary();
+                        break;
+                    case 9:
+                        return;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(Environment.NewLine + $"La opción {opcion} no es valida.");
+                        break;
+                }
+
+                Console.WriteLine(Environment.NewLine);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Pulsa una tecla para continuar...");
+                Console.ReadKey();
+            }
         }
 
+        /// <summary>
+        /// Uso de Arrays
+        /// </summary>
         static void Arrays()
         {
             // Instanciar un array de una dimensión
@@ -38,15 +103,13 @@ namespace Formacion.CSharp.ConsoleApp3
             // Instanciar un array de multiples dimensiones
             int[,] multiDimensionArray1 = new int[2, 4];
             int[,] multiDimensionArray2 = { { 1, 2, 3, 4 }, { 9, 52, 36, 14 } };
-            
-            int[,,] arrayTridimensional = new int[2, 5, 5];
 
             /*
                 0 -> 1, 2, 3, 4 
                      0, 1  2, 3
                 
                 1 -> 9, 52, 36, 14
-                     0,  1   2,  3
+                     0,  1,   2,  3
 
                 0 -> 0, 0, 0, 0 
                      0, 1  2, 3
@@ -58,6 +121,7 @@ namespace Formacion.CSharp.ConsoleApp3
 
             Console.WriteLine($"Valor [1,2]: {multiDimensionArray1[1, 2]}");
 
+            int[,,] arrayTridimensional = new int[2, 5, 5];
 
             // Instanciamos un array denominado jagged
             int[][] jaggedArray = new int[6][];
@@ -93,7 +157,10 @@ namespace Formacion.CSharp.ConsoleApp3
 
         }
 
-        static void ArrayLists()
+        /// <summary>
+        /// Uso de ArrayList
+        /// </summary>
+        static void ArrayList()
         {
             // Instanciar
             ArrayList array = new ArrayList();
@@ -136,8 +203,6 @@ namespace Formacion.CSharp.ConsoleApp3
             // Convertir el ArrayList en un array -> object[] nuevoArray
             object[] nuevoArray = array.ToArray();
 
-            array.
-
             // Recorremos el ArrayList
             foreach (var item in array)
                 Console.WriteLine($"Item: {item.GetType().ToString()}");
@@ -146,23 +211,121 @@ namespace Formacion.CSharp.ConsoleApp3
             Console.WriteLine($"Número de elementos: {array.Count}");
         }
 
-        static void Lists()
-        { 
-            // Instanciar List
-            List<string> lista = new List<string>();
+        /// <summary>
+        /// Uso de Hashtable
+        /// </summary>
+        public static void Hashtable()
+        {
+            // Instanciar
+            var ht = new Hashtable();
 
-            List<string> lista2 = new();
-            var lista3 = new List<string>();
+            // Eliminar todos los elementos
+            ht.Clear();
 
-            List<int> lista4 = new List<int>();
-            List<Alumno> lista5 = new List<Alumno>();
-     
+            // Añadir elementos
+            ht.Add(1200, "Borja Cabeza");
+            ht.Add("ANATR", "Ana Trujillo");
+            ht.Add(412, new Alumno());
+
+
+            // Número de elementos
+            Console.WriteLine($"Número de elementos: {ht.Count}");
+
+            // Eliminar un elemento
+            ht.Remove(1200);
+
+            // Recorrer el HashTable
+            foreach (var clave in ht.Keys)
+                Console.WriteLine($"{clave}: {ht[clave]}");
         }
-    }
 
-    internal class Alumno 
-    {
-        public string Nombre { get; set; }
-        public int Edad { get; set; }
+        /// <summary>
+        /// Uso de Listas
+        /// </summary>
+        public static void List()
+        {
+            // Instanciar
+            List<string> list = new List<string>();
+
+            List<string> list1 = new();
+            var list2 = new List<string>();
+
+            // Eliminar los elementos
+            list.Clear();
+
+            // Añadir elementos
+            list.Add("azul");
+            list.Add("verde");
+            list.Add("rosa");
+            list.Add("amarillo");
+
+            // Añadir elementos en una posición
+            list.Insert(4, "blanco");
+
+            // Añadir todos los elementos de otra colección
+            var colores = new string[] { "marron", "naranja", "negro", "violeta" };
+            list.AddRange(colores);
+
+            // Número de elementos del List
+            Console.WriteLine($"Número de elementos: {list.Count}");
+
+            // Eliminar elementos
+            list.Remove("azul");
+            list.RemoveAt(4);
+            list.RemoveRange(2, 2);
+
+            // Saber si un elemento esta contenido
+            Console.WriteLine($"Contiene el item rojo: {list.Contains("rojo")}");
+
+            // Orderna los elementos
+            list.Sort();
+
+            // Invertir el orden
+            list.Reverse();
+
+            // Convertir en un array de object -> object[] array = new array[10]
+            var nuevoArray = list.ToArray();
+
+            // Recorrer el List
+            foreach (var item in list)
+                Console.WriteLine($"{list.IndexOf(item)}# Item: {item}");
+
+            for (var i = 0; i < list.Count; i++)
+                Console.WriteLine($"{i}# {list[i]}");
+
+        }
+
+        /// <summary>
+        /// Uso de Diccionarios
+        /// </summary>
+        public static void Dictionary()
+        {
+            // Instanciar
+            Dictionary<int, string> dic = new Dictionary<int, string>();
+
+            Dictionary<int, string> dic1 = new();
+            var dic2 = new Dictionary<int, string>();
+
+            // Eliminar todos los elementos
+            dic.Clear();
+
+            // Añadir elementos
+            dic.Add(1200, "Borja Cabeza");
+            dic.Add(1300, "Ana Trujillo");
+            dic.Add(1412, "José Guzman");
+
+            // Modificar un valor
+            dic[1300] = "Antonio Trujillo";
+
+            // Número de elementos
+            Console.WriteLine($"Número de elementos: {dic.Count}");
+
+            // Eliminar un elemento
+            dic.Remove(1200);
+
+            // Recorrer el diccionario
+            foreach (var clave in dic.Keys)
+                Console.WriteLine($"{clave}: {dic[clave]}");
+        }
     }
 }

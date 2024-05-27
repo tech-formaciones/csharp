@@ -12,61 +12,65 @@ class Program
     /// </summary>
     static void Main(string[] args)
     {
-
-        try
+        while (true)
         {
-            ControlDeExcepciones();
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("".PadRight(56, '*'));
+            Console.WriteLine("*  DEMO Y EJERCICIOS".PadRight(55) + "*");
+            Console.WriteLine("".PadRight(56, '*'));
+            Console.WriteLine("*".PadRight(55) + "*");
+            Console.WriteLine("*  1. Declaración de Variables".PadRight(55) + "*");
+            Console.WriteLine("*  2. Conversión de Variables".PadRight(55) + "*");
+            Console.WriteLine("*  3. Sentencias de Control".PadRight(55) + "*");
+            Console.WriteLine("*  4. Sentencias de Repetición".PadRight(55) + "*");
+            Console.WriteLine("*  5. Control de Excepciones".PadRight(55) + "*");
+            Console.WriteLine("*  9. Salir".PadRight(55) + "*");
+            Console.WriteLine("*".PadRight(55) + "*");
+            Console.WriteLine("".PadRight(56, '*'));
+
+            Console.WriteLine(Environment.NewLine);
+            Console.Write("   Opción: ");
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+
+            int.TryParse(Console.ReadLine(), out int opcion);
+            switch (opcion)
+            {
+                case 1:
+                    Console.Clear();
+                    DeclaracionVariables();
+                    break;
+                case 2:
+                    Console.Clear();
+                    ConversionVariables();
+                    break;
+                case 3:
+                    Console.Clear();
+                    SentenciasDeControl();
+                    break;
+                case 4:
+                    Console.Clear();
+                    SentenciasDeRepeticion();
+                    break;
+                case 5:
+                    Console.Clear();
+                    ControlDeExcepciones();
+                    break;
+                case 9:
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    return;
+                default:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(Environment.NewLine + $"La opción {opcion} no es valida.");
+                    break;
+            }
+
+            Console.WriteLine(Environment.NewLine);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Pulsa una tecla para continuar...");
+            Console.ReadKey();
         }
-        catch (Exception e)
-        {
-            Console.WriteLine($"MAIN: {e.Message}");
-        }
-
-        
-        // while (true)
-        // {
-        //     Console.Clear();
-        //     Console.ForegroundColor = ConsoleColor.Yellow;
-        //     Console.WriteLine("".PadRight(56, '*'));
-        //     Console.WriteLine("*  DEMO Y EJERCICIOS".PadRight(55) + "*");
-        //     Console.WriteLine("".PadRight(56, '*'));
-        //     Console.WriteLine("*".PadRight(55) + "*");
-        //     Console.WriteLine("*  1. Declaración de Variables".PadRight(55) + "*");
-        //     Console.WriteLine("*  2. Conversión de Variables".PadRight(55) + "*");
-        //     Console.WriteLine("*  9. Salir".PadRight(55) + "*");
-        //     Console.WriteLine("*".PadRight(55) + "*");
-        //     Console.WriteLine("".PadRight(56, '*'));
-
-        //     Console.WriteLine(Environment.NewLine);
-        //     Console.Write("   Opción: ");
-
-        //     Console.ForegroundColor = ConsoleColor.Cyan;
-
-        //     int.TryParse(Console.ReadLine(), out int opcion);
-        //     switch (opcion)
-        //     {
-        //         case 1:
-        //             Console.Clear();
-        //             DeclaracionVariables();
-        //             break;
-        //         case 2:
-        //             Console.Clear();
-        //             ConversionVariables();
-        //             break;                    
-        //         case 9:
-        //             Console.ForegroundColor = ConsoleColor.Gray;
-        //             return;
-        //         default:
-        //             Console.ForegroundColor = ConsoleColor.Red;
-        //             Console.WriteLine(Environment.NewLine + $"La opción {opcion} no es valida.");
-        //             break;
-        //     }
-
-        //     Console.WriteLine(Environment.NewLine);
-        //     Console.ForegroundColor = ConsoleColor.White;
-        //     Console.WriteLine("Pulsa una tecla para continuar...");
-        //     Console.ReadKey();
-        // }
     }
 
     /// <summary>
@@ -114,8 +118,10 @@ class Program
         };
 
 
-        ///////////////////////////////////////////////////////////////        
+        ///////////////////////////////////////////////////////////////      
+        //
         // Instaciamos un objeto Alumno usando VAR, OBJECT, DYNAMIC
+        //
         ///////////////////////////////////////////////////////////////                
 
         // Las variables con tipo implícito VAR siempre deben inicializar
@@ -157,6 +163,37 @@ class Program
 
         Console.WriteLine($"Tipo 5: {alumno5.GetType()}");
         Console.WriteLine($"Nombre 5: {alumno5.Nombre}" + Environment.NewLine);
+
+
+        ///////////////////////////////////////////////////////////////
+        //
+        //  Declaración de un Array
+        //  [tipo][] [nombre variable] = [valor inicial]
+        //
+        ///////////////////////////////////////////////////////////////
+
+        int[] numeros = new int[10];
+        int[] numeros2 = { 10, 5, 345, 55, 13, 1000, 83 };
+
+        numeros[7] = 32;
+        Console.WriteLine(numeros2[5]);
+
+        Alumno[] alumnos = new Alumno[20];
+        alumnos[0] = new Alumno();
+        alumnos[1] = new Alumno();
+
+        Alumno[] alumnos2 = {
+                new Alumno() { Nombre = "Julian", Apellidos = "Sánchez", Edad = 24 },
+                new Alumno(),
+                new Alumno()
+            };
+
+        Alumno[] alumnos3 = { new Alumno(), new Alumno(), new Alumno() };
+
+        alumnos3[1].Nombre = "Ana María";
+        alumnos3[1].Apellidos = "Sánchez";
+        alumnos3[1].Edad = 24;
+        Console.WriteLine(alumnos3[1].Nombre);
     }
 
     /// <summary>
@@ -220,9 +257,17 @@ class Program
         Console.WriteLine($"Resultado Num 5: {esEntero}");
     }
 
-
+    /// <summary>
+    /// Sentencias de Control, uso de IF/ELSE y SWITCH
+    /// </summary>
     static void SentenciasDeControl()
     {
+        ///////////////////////////////////////////////////////////////
+        //
+        //  Sentencias de Control, uso de IF/ELSE y SWITCH
+        //
+        ///////////////////////////////////////////////////////////////
+        
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.White;
 
@@ -392,8 +437,17 @@ class Program
         Console.ForegroundColor = ConsoleColor.Gray;
     }
 
+    /// <summary>
+    /// Sentencias de Control, uso de FOR, FOREACH, WHILE y DO/WHILE
+    /// </summary>
     static void SentenciasDeRepeticion()
     {
+        ///////////////////////////////////////////////////////////////
+        //
+        //  Sentencias de Control, uso de FOR, FOREACH, WHILE y DO/WHILE
+        //
+        ///////////////////////////////////////////////////////////////
+        
         string[] frutas = {"naranja", "limón", "pomelo", "líma"};
         object[] objetos = {"naranja", 10, new Alumno(), new Reserva()};
 
@@ -522,30 +576,25 @@ class Program
         Console.WriteLine($"Número menor: {numeros.Min()}");
     }
 
+    /// <summary>
+    /// Control de Excepciones, uso de TRY/CATCH/FINALLY
+    /// </summary>
     static void ControlDeExcepciones()
     {
+        ///////////////////////////////////////////////////////////////
+        //
+        //  Control de Excepciones, uso de TRY/CATCH/FINALLY
+        //
+        ///////////////////////////////////////////////////////////////
 
-        // EJEMPLO EN PYTHON
-        // numero1 = 5
-        // numero2 = 100
-
-        // try:    
-        //     numero3 = numero2 / numero1
-        //     print(f"Valor de número 3: {numero3}")
-
-        //     f = open("miFichero.txt")
-        // except ZeroDivisionError as err:
-        //     print(f"-> {err}")
-        //     print(f"-> {type(err)}")
-        // except FileNotFoundError as err:
-        //     print(f"-> {err}")
-        //     print(f"-> {type(err)}")
-        // except Exception as err:
-        //     print(f"{err}")
-        //     print(f"{type(err)}")
-        // finally:
-        //     print(f"F I N")
-
+        // Cuando se produce una excepción en el código de un bloque TRY 
+        // la excepción se controla mediante los bloques CATCH.
+        //
+        // Primero especificamos todas las excepciones especificas y luego
+        // la excepción genérica.
+        //
+        // El bloque FINALLY garantiza la ejecución de código tanto si se
+        // produce una excepción como sino.
 
         int numero1 = 5;
         int numero2 = 100;
@@ -579,23 +628,12 @@ class Program
         }
         Console.WriteLine("");
 
-        /*
-        try:
-            print("Nivel 1")
 
-            print("Inicio Nivel 2")
+        // THROW permite generar mediante código una excepción
+        //
+        // Dentro de un bloque CATCH reenvia la excepción a un nivel TRY/CATCH
+        // superior.
 
-            try:
-                print("Nivel 2")
-                print(100/0)
-            except Exception as err:
-                raise
-                print(f"Nivel 2: {err}")
-            finally:
-                print("Fin Nivel 2")
-        except Exception as err:
-            print(f"Nivel 1: {err}")
-        */
         try
         {
             Console.WriteLine("NIVEL 1");
@@ -621,7 +659,6 @@ class Program
         catch (Exception e)
         {
             Console.WriteLine($"Error 1: {e.Message}");
-            throw;
         }
     }
 }
