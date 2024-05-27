@@ -4,7 +4,13 @@
     {
         static void Main(string[] args)
         {
-            ConsultasBasicas();
+            //ConsultasBasicas();
+            Ejercicio3B();
+
+        }
+
+        static void Fechas()
+        {
 
             DateTime fecha = DateTime.Now;
             DateTime fecha2 = new DateTime(1990, 5, 27);            // 27-05-1990  0:00:00
@@ -19,7 +25,6 @@
             Console.WriteLine(fecha2.ToString());
             Console.WriteLine(fecha2.ToLongDateString());
             Console.WriteLine(fecha2.Year);
-
         }
 
         /// <summary>
@@ -191,19 +196,110 @@
         /// Clientes mayores de 40 años
         /// </summary>
         static void Ejercicio1()
-        { }
+        { 
+            var clientes = DataLists.ListaClientes
+                .Where(r => DateTime.Now.Year - r.FechaNac.Year > 40)
+                .ToList();
+
+            var clientes2 = DataLists.ListaClientes
+                .Where(r => DateTime.Now.Subtract(r.FechaNac).TotalDays / 365 > 40)
+                .ToList();
+
+            var clientes3 = DataLists.ListaClientes
+                .Where(r => r.FechaNac < DateTime.Now.AddYears(-40))
+                .ToList();
+
+            var clientes4 = DataLists.ListaClientes
+                .Where(r => r.FechaNac.AddYears(40) <= DateTime.Now)
+                .ToList();
+
+            foreach (var item in clientes4)
+                Console.WriteLine($"{item.Id}# {item.Nombre}");
+
+        }
 
         /// <summary>
         /// Productos que comiencen por C ordenados por precio
         /// </summary>
         static void Ejercicio2()
-        { }
+        {
+            var productos = DataLists.ListaProductos
+                .Where(r => r.Descripcion.StartsWith("C"))
+                .OrderBy(r => r.Precio)
+                .Select(r => r)
+                .ToList();
+
+            foreach (var item in productos)
+                Console.WriteLine($"{item.Id}# {item.Descripcion} - {item.Precio.ToString("N2")}");
+        }
 
         /// <summary>
         /// Listar un detalle de todos los pedidos
         /// </summary>
         static void Ejercicio3()
-        { }
+        {
+            // Id, Descripción, Cantidad y el precio de cada producto del pedido
+
+            var pedidos = DataLists.ListaPedidos
+                .ToList();
+
+            foreach(var pedido in pedidos)
+            {
+                Console.WriteLine("=======================================================");
+                Console.WriteLine("Pedido numero: {0}", pedido.Id);
+                Console.WriteLine("=======================================================");
+
+                var lineas = DataLists.ListaLineasPedido
+                    .Where(r => r.IdPedido == pedido.Id)
+                    .ToList();
+
+                float total = 0;
+
+                foreach (var linea in lineas)
+                {
+                    var producto = DataLists.ListaProductos
+                        .Where(r => r.Id == linea.IdProducto)
+                        .FirstOrDefault();
+
+                    Console.WriteLine($"{producto.Id} - {producto.Descripcion} -  Cant. {linea.Cantidad} - Precio {producto.Precio.ToString("N2")}");
+
+                    total = total + (linea.Cantidad * producto.Precio);
+                }
+
+                Console.WriteLine("=======================================================");
+                Console.WriteLine($"TOTAL PEDIDO: {total.ToString("N2")}");
+                Console.WriteLine("=======================================================\n\n");
+            }
+        
+        }
+
+
+        static void Ejercicio3B()
+        {
+            // Subconsultas o SubSelects
+            Console.Clear();
+            Console.Write("Número de Pedido: ");
+            int numPedido = Convert.ToInt32(Console.ReadLine());
+
+            var lineas = DataLists.ListaLineasPedido
+                .Where(r => r.IdPedido == numPedido)
+                .Select(r => new { 
+                    r.IdProducto,                  
+                    Descripcion = DataLists.ListaProductos
+                        .Where(s => s.Id == r.IdProducto)
+                        .Select(r => r.Descripcion)
+                        .FirstOrDefault(),
+                    Precio = DataLists.ListaProductos
+                        .Where(s => s.Id == r.IdProducto)
+                        .Select(r => r.Precio)
+                        .FirstOrDefault(),
+                    r.Cantidad
+                })
+                .ToList();
+
+            foreach(var linea in  lineas)
+                Console.WriteLine($"{linea.IdProducto} - {linea.Descripcion} -  Cant. {linea.Cantidad} - Precio {linea.Precio.ToString("N2")}");
+        }
 
         /// <summary>
         /// Mostrar el importe total de un pedido
