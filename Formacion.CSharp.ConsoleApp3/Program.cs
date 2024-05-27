@@ -56,6 +56,10 @@ namespace Formacion.CSharp.ConsoleApp3
                         Console.Clear();
                         Dictionary();
                         break;
+                    case 6:
+                        Console.Clear();
+                        AddItemReference();
+                        break;
                     case 9:
                         return;
                     default:
@@ -217,7 +221,7 @@ namespace Formacion.CSharp.ConsoleApp3
         public static void Hashtable()
         {
             // Instanciar
-            var ht = new Hashtable();
+            Hashtable ht = new Hashtable();
 
             // Eliminar todos los elementos
             ht.Clear();
@@ -231,12 +235,12 @@ namespace Formacion.CSharp.ConsoleApp3
             // Número de elementos
             Console.WriteLine($"Número de elementos: {ht.Count}");
 
-            // Eliminar un elemento
+            // Eliminar un elemento, mediante la clave
             ht.Remove(1200);
-
+            
             // Recorrer el HashTable
             foreach (var clave in ht.Keys)
-                Console.WriteLine($"{clave}: {ht[clave]}");
+                Console.WriteLine($"Clave = {clave} - Valor = {ht[clave]}");
         }
 
         /// <summary>
@@ -247,8 +251,12 @@ namespace Formacion.CSharp.ConsoleApp3
             // Instanciar
             List<string> list = new List<string>();
 
-            List<string> list1 = new();
-            var list2 = new List<string>();
+            List<string> lista = new List<string>();
+            List<string> lista2 = new();
+            var lista3 = new List<string>();
+
+            List<int> lista4 = new List<int>();
+            List<Alumno> lista5 = new List<Alumno>();
 
             // Eliminar los elementos
             list.Clear();
@@ -292,7 +300,6 @@ namespace Formacion.CSharp.ConsoleApp3
 
             for (var i = 0; i < list.Count; i++)
                 Console.WriteLine($"{i}# {list[i]}");
-
         }
 
         /// <summary>
@@ -325,7 +332,86 @@ namespace Formacion.CSharp.ConsoleApp3
 
             // Recorrer el diccionario
             foreach (var clave in dic.Keys)
-                Console.WriteLine($"{clave}: {dic[clave]}");
+                Console.WriteLine($"Clave = {clave} - Valor = {dic[clave]}");
+        }
+
+        /// <summary>
+        /// Añadir elementos de tipo referencia a una colección
+        /// </summary>
+        public static void AddItemReference()
+        {
+            // Opcion A - NO VALIDA
+            //
+            // Comprobamos que al añadir un elemento de tipo referencia varias veces, tenemos
+            // el mismo elemnto en todas las posiciones.
+            // 
+            // Solo sería valido cuando trabajamos con objetos de tipo valor
+
+            var alumnos = new List<Alumno>();
+
+            var alumno = new Alumno() { Nombre = "Borja", Edad = 49 };            
+            alumnos.Add(alumno);
+
+            alumnos.Add(alumno);
+            alumnos[1].Nombre = "Ana";
+
+            alumnos.Add(alumno);
+            alumnos[2].Nombre = "José";
+
+            alumnos.Add(alumno);
+            alumnos[3].Nombre = "Bea";
+
+            alumnos.Add(alumno);
+            alumnos[4].Nombre = "Silvia";
+
+
+            foreach (var item in alumnos) 
+                Console.WriteLine($"Nombre: {item.Nombre} - Edad: {item.Edad}");
+
+            Console.ReadKey();
+
+            // Opcion B - VALIDA
+            //
+            // Para tener un objeto distinto en cada posición, necesitamos instanciar cada objeto
+            // antes de añadirlo a la lista
+
+            var alumnos2a = new List<Alumno>();
+
+            alumnos2a.Add(new Alumno() { Nombre = "Borja", Edad = 49 });
+            alumnos2a.Add(new Alumno() { Nombre = "José", Edad = 33 });
+            alumnos2a.Add(new Alumno() { Nombre = "Bea", Edad = 27 });
+            alumnos2a.Add(new Alumno() { Nombre = "Silvia", Edad = 34 });
+
+            ///////////////////////////////////////////////////////////////////////////////////
+
+            var alumnos2b = new List<Alumno>
+            {
+                new Alumno() { Nombre = "Borja", Edad = 49 },
+                new Alumno() { Nombre = "José", Edad = 33 },
+                new Alumno() { Nombre = "Bea", Edad = 27 },
+                new Alumno() { Nombre = "Silvia", Edad = 34 }
+            };
+
+            ///////////////////////////////////////////////////////////////////////////////////
+
+            var alumnos2c = new List<Alumno>();
+
+            var item1 = new Alumno() { Nombre = "Borja", Edad = 49 };
+            alumnos2c.Add(item1);
+
+            var item2 = new Alumno() { Nombre = "José", Edad = 33 };
+            alumnos2c.Add(item2);
+
+            var item3 = new Alumno() { Nombre = "Bea", Edad = 27 };
+            alumnos2c.Add(item3);
+
+            var item4 = new Alumno() { Nombre = "Silvia", Edad = 34 };
+            alumnos2c.Add(item4);
+
+            ///////////////////////////////////////////////////////////////////////////////////
+
+            foreach (var item in alumnos2a)
+                Console.WriteLine($"Nombre: {item.Nombre} - Edad: {item.Edad}");
         }
     }
 }
