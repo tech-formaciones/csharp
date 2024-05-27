@@ -98,10 +98,73 @@
             var productos6b = from r in DataLists.ListaProductos
                               select r.Descripcion;
 
+            ////////////////////////////////////////////////////////////////////////////////////////
+
+            // Ordena en la base de datos
+            var order1a = DataLists.ListaProductos
+                .Where(r => r.Precio > 0.90 && r.Precio < 2)
+                .OrderBy(r => r.Descripcion)
+                .Select(r => r.Descripcion);
+
+            // Ordena en la base de datos
+            var order1b = from r in DataLists.ListaProductos
+                          where r.Precio > 0.90 && r.Precio < 2
+                          orderby r.Descripcion
+                          select r.Descripcion;
+
+            // Ordena en el ordenador, puede ofrecer menos rendimiento
+            var order2a = DataLists.ListaProductos
+                .Where(r => r.Precio > 0.90 && r.Precio < 2)                
+                .Select(r => r.Descripcion)
+                .OrderBy(r => r);
+
+            // Ordena en el ordenador, puede ofrecer menos rendimiento
+            var order2b = (from r in DataLists.ListaProductos
+                          where r.Precio > 0.90 && r.Precio < 2                          
+                          select r.Descripcion).ToList().OrderBy(r => r);
+
+            ////////////////////////////////////////////////////////////////////////////////////////
+
+            // Contains -> Contiene; 
+            // Transat-SQL -> SELECT * FROM ListaProductos  WHERE descripcion LIKE '%es%'
+
+            var w1a = DataLists.ListaProductos
+                .Where(r => r.Descripcion.Contains("es"))
+                .Select(r => r)
+                .ToList();
+
+            var w1b = from r in DataLists.ListaProductos
+                      where r.Descripcion.Contains("es")
+                      select r.Descripcion;
 
 
+            // StartsWith-> Comienza; 
+            // Transat-SQL -> SELECT * FROM ListaProductos  WHERE descripcion LIKE 'es%'
 
-            foreach (var producto in productos4a) 
+            var w2a = DataLists.ListaProductos
+                .Where(r => r.Descripcion.StartsWith("es"))
+                .Select(r => r)
+                .ToList();
+
+            var w2b = from r in DataLists.ListaProductos
+                      where r.Descripcion.StartsWith("es")
+                      select r.Descripcion;
+
+
+            // EndsWith-> Finaliza
+            // Transat-SQL -> SELECT * FROM ListaProductos  WHERE descripcion LIKE '%es'
+
+            var w3a = DataLists.ListaProductos
+                .Where(r => r.Descripcion.EndsWith("es"))
+                .Select(r => r)
+                .ToList();
+
+            var w3b = from r in DataLists.ListaProductos
+                      where r.Descripcion.EndsWith("es")
+                      select r.Descripcion;
+
+
+            foreach (var producto in w1a) 
                 Console.WriteLine($"{producto.Descripcion} - Precio: {producto.Precio.ToString("N2")}");
 
 
