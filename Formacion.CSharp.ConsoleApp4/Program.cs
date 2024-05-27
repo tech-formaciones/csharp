@@ -5,8 +5,26 @@
         static void Main(string[] args)
         {
             ConsultasBasicas();
+
+            DateTime fecha = DateTime.Now;
+            DateTime fecha2 = new DateTime(1990, 5, 27);            // 27-05-1990  0:00:00
+            DateTime fecha3 = new DateTime(1990, 5, 27, 10, 10, 0); // 27-05-1990 10:10:00
+
+            fecha2.AddDays(-4);  // 23-05-1990  0:00:00
+            fecha2.AddDays(4);   // 01-06-1990  0:00:00
+
+            var resta = fecha - fecha2;
+            var resta2 = fecha.Subtract(fecha2);
+
+            Console.WriteLine(fecha2.ToString());
+            Console.WriteLine(fecha2.ToLongDateString());
+            Console.WriteLine(fecha2.Year);
+
         }
 
+        /// <summary>
+        /// Consultas básicas de LINQ con DataLists
+        /// </summary>
         static void ConsultasBasicas()
         {
             // Transat-SQL -> SELECT * FROM ListaProductos
@@ -167,7 +185,49 @@
             foreach (var producto in w1a) 
                 Console.WriteLine($"{producto.Descripcion} - Precio: {producto.Precio.ToString("N2")}");
 
-
         }
+
+        /// <summary>
+        /// Clientes mayores de 40 años
+        /// </summary>
+        static void Ejercicio1()
+        { }
+
+        /// <summary>
+        /// Productos que comiencen por C ordenados por precio
+        /// </summary>
+        static void Ejercicio2()
+        { }
+
+        /// <summary>
+        /// Listar un detalle de todos los pedidos
+        /// </summary>
+        static void Ejercicio3()
+        { }
+
+        /// <summary>
+        /// Mostrar el importe total de un pedido
+        /// </summary>
+        static void Ejercicio4()
+        { }
+
+        /// <summary>
+        /// Mostrar los pedidos con lapiceros
+        /// </summary>
+        static void Ejercicio5()
+        { }
+
+        /// <summary>
+        /// Número de pedidos con cuaderno grande
+        /// </summary>
+        static void Ejercicio6()
+        { }
+
+        /// <summary>
+        /// Unidades vendidas de cuaderno pequeño
+        /// </summary>
+        static void Ejercicio7()
+        { }
+
     }
 }
