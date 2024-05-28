@@ -1,11 +1,97 @@
-﻿namespace Formacion.CSharp.ConsoleApp4
+﻿using System.Linq;
+
+namespace Formacion.CSharp.ConsoleApp4
 {
     internal class Program
     {
+        /// <summary>
+        ///  Método Main inicio del programa
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
-            //ConsultasBasicas();
-            Ejercicio3B();
+            while (true)
+
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("".PadRight(56, '*'));
+                Console.WriteLine("*  DEMO Y EJERCICIOS".PadRight(55) + "*");
+                Console.WriteLine("".PadRight(56, '*'));
+                Console.WriteLine("*".PadRight(55) + "*");
+                Console.WriteLine("*  1. Consultas Básicas".PadRight(55) + "*");
+                Console.WriteLine("*  2. Consultas Avanzadas".PadRight(55) + "*");
+                Console.WriteLine("*  3. Cliente mayores de 40 años".PadRight(55) + "*");
+                Console.WriteLine("*  4. Productos que comienza C ordenador por precio".PadRight(55) + "*");
+                Console.WriteLine("*  5. Listar detalle de un pedido".PadRight(55) + "*");
+                Console.WriteLine("*  6. Listar detalle de un pedido (con subconsultas)".PadRight(55) + "*");
+                Console.WriteLine("*  7. Mostrar el importe total de un pedido".PadRight(55) + "*");
+                Console.WriteLine("*  8. Mostrar pedidos con Lapicero".PadRight(55) + "*");
+                Console.WriteLine("*  9. Número de pedidos con Cuaderno Grande".PadRight(55) + "*");
+                Console.WriteLine("* 10. Unidades vendidas de Cuaderno Pequeño".PadRight(55) + "*");
+                Console.WriteLine("* 11. El pedido con más unidades".PadRight(55) + "*");
+                Console.WriteLine("* 12. Listado de pedidos ordernados por fecha ".PadRight(55) + "*");
+                Console.WriteLine("* 90. Salir".PadRight(55) + "*");
+                Console.WriteLine("*".PadRight(55) + "*");
+                Console.WriteLine("".PadRight(56, '*'));
+
+                Console.WriteLine(Environment.NewLine);
+                Console.Write("   Opción: ");
+
+                Console.ForegroundColor = ConsoleColor.Cyan;
+
+                int.TryParse(Console.ReadLine(), out int opcion);
+                switch (opcion)
+                {
+                    case 1:
+                        ConsultasBasicas();
+                        break;
+                    case 2:
+                        ConsultasAvanzadas();
+                        break;
+                    case 3:
+                        Ejercicio1();
+                        break;
+                    case 4:
+                        Ejercicio2();
+                        break;
+                    case 5:
+                        Ejercicio3();
+                        break;
+                    case 6:
+                        Ejercicio3B();
+                        break;
+                    case 7:
+                        Ejercicio4();
+                        break;
+                    case 8:
+                        Ejercicio5();
+                        break;
+                    case 9:
+                        Ejercicio6();
+                        break;
+                    case 10:
+                        Ejercicio7();
+                        break;
+                    case 11:
+                        Ejercicio8();
+                        break;
+                    case 12:
+                        Ejercicio9();
+                        break;
+                    case 90:
+                        return;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(Environment.NewLine + $"La opción {opcion} no es valida.");
+                        break;
+                }
+
+                Console.WriteLine(Environment.NewLine);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Pulsa una tecla para continuar...");
+                Console.ReadKey();
+            }
 
         }
 
@@ -193,10 +279,18 @@
         }
 
         /// <summary>
+        /// Consultas avanzadas de LINQ con DataLists
+        /// </summary>
+        static void ConsultasAvanzadas()
+        { 
+        
+        }
+
+        /// <summary>
         /// Clientes mayores de 40 años
         /// </summary>
         static void Ejercicio1()
-        { 
+        {
             var clientes = DataLists.ListaClientes
                 .Where(r => DateTime.Now.Year - r.FechaNac.Year > 40)
                 .ToList();
@@ -213,9 +307,15 @@
                 .Where(r => r.FechaNac.AddYears(40) <= DateTime.Now)
                 .ToList();
 
+            Console.Clear();
+            Console.WriteLine("===============================================");
+            Console.WriteLine(" LISTADO DE CLIENTES CON MÁS DE 40 AÑOS");
+            Console.WriteLine("===============================================");
+
             foreach (var item in clientes4)
                 Console.WriteLine($"{item.Id}# {item.Nombre}");
 
+            Console.WriteLine("===============================================");
         }
 
         /// <summary>
@@ -229,8 +329,15 @@
                 .Select(r => r)
                 .ToList();
 
+            Console.Clear();
+            Console.WriteLine("=====================================================");
+            Console.WriteLine(" PRODUCTOS QUE COMIENZA POR C ORDENADOR POR PRECIO");
+            Console.WriteLine("=====================================================");
+
             foreach (var item in productos)
-                Console.WriteLine($"{item.Id}# {item.Descripcion} - {item.Precio.ToString("N2")}");
+                Console.WriteLine($"{item.Id.ToString().PadLeft(3, ' ')}# {item.Descripcion.PadRight(20, ' ')} {item.Precio.ToString("N2").PadLeft(5, ' ')} Euros/unidad");
+
+            Console.WriteLine("=====================================================");
         }
 
         /// <summary>
@@ -238,45 +345,41 @@
         /// </summary>
         static void Ejercicio3()
         {
-            // Id, Descripción, Cantidad y el precio de cada producto del pedido
+            Console.Clear();
+            Console.Write("Número de Pedido: ");
+            int numPedido = Convert.ToInt32(Console.ReadLine());
 
-            var pedidos = DataLists.ListaPedidos
+            var lineas = DataLists.ListaLineasPedido
+                .Where(r => r.IdPedido == numPedido)
+                .Select(r => r)
                 .ToList();
 
-            foreach(var pedido in pedidos)
+            float total = 0;
+            Console.WriteLine("===============================================");
+
+            foreach (var linea in lineas)
             {
-                Console.WriteLine("=======================================================");
-                Console.WriteLine("Pedido numero: {0}", pedido.Id);
-                Console.WriteLine("=======================================================");
+                var producto = DataLists.ListaProductos
+                    .Where(r => r.Id == linea.IdProducto)
+                    .FirstOrDefault();
 
-                var lineas = DataLists.ListaLineasPedido
-                    .Where(r => r.IdPedido == pedido.Id)
-                    .ToList();
+                Console.Write($"{linea.IdProducto.ToString().PadLeft(3, '0')}# ");
+                Console.Write($"{producto.Descripcion.PadRight(20, ' ')} ");
+                Console.Write($"{linea.Cantidad.ToString("N0").PadLeft(5, ' ')} x {producto.Precio.ToString("N2").PadLeft(5, ' ')}   ");
+                Console.WriteLine($"{(producto.Precio * linea.Cantidad).ToString("N2").PadLeft(5, ' ')}");
 
-                float total = 0;
-
-                foreach (var linea in lineas)
-                {
-                    var producto = DataLists.ListaProductos
-                        .Where(r => r.Id == linea.IdProducto)
-                        .FirstOrDefault();
-
-                    Console.WriteLine($"{producto.Id} - {producto.Descripcion} -  Cant. {linea.Cantidad} - Precio {producto.Precio.ToString("N2")}");
-
-                    total = total + (linea.Cantidad * producto.Precio);
-                }
-
-                Console.WriteLine("=======================================================");
-                Console.WriteLine($"TOTAL PEDIDO: {total.ToString("N2")}");
-                Console.WriteLine("=======================================================\n\n");
+                total += (linea.Cantidad * producto.Precio);
             }
-        
+            Console.WriteLine("===============================================");
+            Console.WriteLine("TOTAL".PadLeft(39, ' ') + $"   {total.ToString("N2").PadLeft(5, ' ')}");
+            Console.WriteLine("===============================================");
         }
 
-
+        /// <summary>
+        /// Listar un detalle de todos los pedidos, utilizando subconsultas de LINQ
+        /// </summary>
         static void Ejercicio3B()
         {
-            // Subconsultas o SubSelects
             Console.Clear();
             Console.Write("Número de Pedido: ");
             int numPedido = Convert.ToInt32(Console.ReadLine());
@@ -297,8 +400,22 @@
                 })
                 .ToList();
 
-            foreach(var linea in  lineas)
-                Console.WriteLine($"{linea.IdProducto} - {linea.Descripcion} -  Cant. {linea.Cantidad} - Precio {linea.Precio.ToString("N2")}");
+            float total = 0;
+
+            Console.WriteLine("===============================================");
+            foreach (var linea in lineas)
+            {
+                Console.Write($"{linea.IdProducto.ToString().PadLeft(3, '0')}# ");
+                Console.Write($"{linea.Descripcion.PadRight(20, ' ')} ");
+                Console.Write($"{linea.Cantidad.ToString("N0").PadLeft(5, ' ')} x {linea.Precio.ToString("N2").PadLeft(5, ' ')}   ");
+                Console.WriteLine($"{(linea.Precio * linea.Cantidad).ToString("N2").PadLeft(5, ' ')}");
+
+                total += (linea.Cantidad * linea.Precio);
+            }
+            Console.WriteLine("===============================================");
+            Console.WriteLine("TOTAL".PadLeft(39, ' ') + $"   {total.ToString("N2").PadLeft(5, ' ')}");
+            Console.WriteLine("===============================================");
+
         }
 
         /// <summary>
@@ -323,6 +440,18 @@
         /// Unidades vendidas de cuaderno pequeño
         /// </summary>
         static void Ejercicio7()
+        { }
+
+        /// <summary>
+        /// El pedido con más unidades
+        /// </summary>
+        static void Ejercicio8()
+        { }
+
+        /// <summary>
+        /// Listado de pedidos ordernados por fecha
+        /// </summary>
+        static void Ejercicio9()
         { }
 
     }

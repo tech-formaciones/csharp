@@ -1,5 +1,8 @@
 namespace Formacion.CSharp.ConsoleApp2.Models;
 
+/// <summary>
+/// Objeto Alumno para ejercicios y demos
+/// </summary>
 public struct Alumno2
 {
     private string nombre;

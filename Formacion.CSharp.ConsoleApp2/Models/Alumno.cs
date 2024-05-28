@@ -2,6 +2,9 @@ using System.Diagnostics;
 
 namespace Formacion.CSharp.ConsoleApp2.Models;
 
+/// <summary>
+/// Objeto Alumno para ejercicios y demos
+/// </summary>
 public class Alumno
 {
     // Miembro: Variables (suelen ser siempre privadas)
@@ -10,9 +13,6 @@ public class Alumno
 
     // Miembro: Propiedades que se comporta como una variable pública
     public string Apellidos { get; set; }
-
-    public Dias DiaTutoria { get; set; }
-    public Estados Estado { get; set; }
 
     // Miembro: Propiedades (suelen y deberían de ser públicas)
     public string Nombre
