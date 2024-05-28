@@ -1,1 +1,3 @@
 ﻿dotnet ef dbcontext scaffold "Data Source=hostdb-eoi.database.windows.net;Initial Catalog=Northwind;Integrated Security=False;User ID=Administrador;Password=azurePa$$w0rd;Connect Timeout=60" "Microsoft.EntityFrameworkCore.SqlServer" --context "NorthwindContext" --context-dir "Models" --output-dir "Models" --use-database-names --force
+
+Scaffold-DbContext "Data Source=hostdb-eoi.database.windows.net;Initial Catalog=Northwind;Integrated Security=False;User ID=Administrador;Password=azurePa`$`$w0rd;Connect Timeout=60" "Microsoft.EntityFrameworkCore.SqlServer" -Context "NorthwindContext" -ContextDir "Models" -OutputDir "Models" -UseDatabaseNames -Force
