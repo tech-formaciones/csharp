@@ -84,5 +84,13 @@ namespace Formacion.CSharp.ConsoleAppEF
             connection.Close();
             connection.Dispose();
         }
+
+        /// <summary>
+        /// Ejecutamos consultas de datos con Entity Framework Core
+        /// </summary>
+        static void ConsultaConEF()
+        { 
+        
+        }
     }
 }
