@@ -74,7 +74,8 @@ namespace Formacion.CSharp.ConsoleApp4
             new Producto { Id = 9,      Descripcion = "Mochila escolar",    Precio = 12.90f },
             new Producto { Id = 10,     Descripcion = "Pegamento barra",    Precio = 1.15f },
             new Producto { Id = 11,     Descripcion = "Lapicero",           Precio = 0.55f },
-            new Producto { Id = 12,     Descripcion = "Grapas",             Precio = 0.90f }
+            new Producto { Id = 12,     Descripcion = "Grapas",             Precio = 0.90f },
+            new Producto { Id = 13,     Descripcion = "Lapicero rojo",      Precio = 0.85f },
         };
 
         private static List<Pedido> _listaPedidos = new List<Pedido>()
@@ -110,6 +111,7 @@ namespace Formacion.CSharp.ConsoleApp4
             new LineaPedido() { Id = 13, IdPedido = 7,  IdProducto = 1,     Cantidad = 4 },
             new LineaPedido() { Id = 14, IdPedido = 7,  IdProducto = 2,     Cantidad = 10 },
             new LineaPedido() { Id = 15, IdPedido = 7,  IdProducto = 11,    Cantidad = 2 },
+            new LineaPedido() { Id = 26, IdPedido = 7,  IdProducto = 13,    Cantidad = 2 },
             new LineaPedido() { Id = 16, IdPedido = 8,  IdProducto = 12,    Cantidad = 2 },
             new LineaPedido() { Id = 17, IdPedido = 8,  IdProducto = 3,     Cantidad = 9 },
             new LineaPedido() { Id = 18, IdPedido = 9,  IdProducto = 5,     Cantidad = 11 },
