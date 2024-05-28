@@ -70,7 +70,6 @@ public partial class NorthwindContext : DbContext
     public virtual DbSet<Territory> Territories { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source=hostdb-eoi.database.windows.net;Initial Catalog=Northwind;Integrated Security=False;User ID=Administrador;Password=azurePa$$w0rd;Connect Timeout=60");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -125,10 +124,8 @@ public partial class NorthwindContext : DbContext
             entity.HasIndex(e => e.PostalCode, "PostalCode");
 
             entity.HasIndex(e => e.Region, "Region");
+            entity.Property(e => e.CustomerID).HasMaxLength(5).IsFixedLength();
 
-            entity.Property(e => e.CustomerID)
-                .HasMaxLength(5)
-                .IsFixedLength();
             entity.Property(e => e.Address).HasMaxLength(60);
             entity.Property(e => e.City).HasMaxLength(15);
             entity.Property(e => e.CompanyName).HasMaxLength(40);

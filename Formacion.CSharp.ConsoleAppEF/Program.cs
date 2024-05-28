@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Formacion.CSharp.ConsoleAppEF.Models;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace Formacion.CSharp.ConsoleAppEF
@@ -7,7 +8,8 @@ namespace Formacion.CSharp.ConsoleAppEF
     {
         static void Main(string[] args)
         {
-            ConsultaConADONET();
+            //ConsultaConADONET();
+            ConsultaConEF();
         }
 
         /// <summary>
@@ -89,8 +91,20 @@ namespace Formacion.CSharp.ConsoleAppEF
         /// Ejecutamos consultas de datos con Entity Framework Core
         /// </summary>
         static void ConsultaConEF()
-        { 
-        
+        {
+            // SELECT * FROM dbo.Customers
+
+            var context = new NorthwindContext();
+
+            var clientes = context.Customers
+                .ToList();
+
+            foreach (var cliente in clientes)
+            {
+                Console.Write($"{cliente.CustomerID.PadLeft(5, ' ')}# ");
+                Console.Write($"{cliente.CompanyName.PadRight(40, ' ')} ");
+                Console.WriteLine($"{cliente.Country}");
+            }
         }
     }
 }
