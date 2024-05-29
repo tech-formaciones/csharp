@@ -11,7 +11,8 @@ namespace Formacion.CSharp.ConsoleAppEF
             //ConsultaConADONET();
             //ConsultaConEF();
             //InsertarDatosEF();
-            ActualizarDatosEF();
+            //ActualizarDatosEF();
+            EliminarDatosEF();
         }
 
         /// <summary>
@@ -131,6 +132,10 @@ namespace Formacion.CSharp.ConsoleAppEF
                 Fax = "900 900 910"
             };
 
+            // Método 1
+            // context.Entry(cliente).State = Microsoft.EntityFrameworkCore.EntityState.Added;
+
+            // Método 2
             context.Customers.Add(cliente);
             context.SaveChanges();
 
@@ -139,9 +144,12 @@ namespace Formacion.CSharp.ConsoleAppEF
         
         static void ActualizarDatosEF()
         {
+            // Opcion A
+            // Recuperamos el cliente de la base de datos, modificamos valores de las propiedades
+            // y grabamos los cambios.
+
             var context = new NorthwindContext();
 
-            // Opcion A
             var cliente = context.Customers
                 .Where(r => r.CustomerID == "BCR01")
                 .FirstOrDefault();
@@ -156,11 +164,66 @@ namespace Formacion.CSharp.ConsoleAppEF
 
                 Console.WriteLine("Cliente actualizado correctamente.");
             }
+
+            // Opcion B
+            // Instanciamos un objeto que representa un registro existen en la base de datos, pero
+            // con valores diferentes y lo utilizamos para actualizar.
+
+            var context2 = new NorthwindContext();
+
+            var cliente2 = new Customer()
+            {
+                CustomerID = "BCR01",
+                CompanyName = "Empresa Uno, SL",
+                ContactName = "Borja Cabeza",
+                ContactTitle = "CEO",
+                Address = "Avenida Paraiso, 33",
+                Region = "Madrid",
+                City = "Madrid",
+                PostalCode = "28013",
+                Country = "España",
+                Phone = "900 900 900",
+                Fax = "900 900 910"
+            };
+
+            // Método 1
+            //context2.Entry(cliente2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            //context2.SaveChanges();
+
+            // Método 2
+            context2.Customers.Update(cliente2);
+            context2.SaveChanges();
+
+            Console.WriteLine("Cliente actualizado correctamente.");
         }
 
         static void EliminarDatosEF()
-        { 
-        
+        {
+            var context = new NorthwindContext();
+
+            // Opcion A
+            var cliente = context.Customers
+                .Where(r => r.CustomerID == "BCR01")
+                .FirstOrDefault();
+
+            if (cliente == null) Console.WriteLine("NO existe el cliente.");
+            else
+            {
+                context.Customers.Remove(cliente);
+                context.SaveChanges();
+
+                Console.WriteLine("Cliente eliminado correctamente.");
+            }
+
+
+            // Opcion B
+
+            var cliente2 = new Customer() { CustomerID = "BCR01" };
+
+            context.Entry(cliente2).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+            context.SaveChanges();
+
+            Console.WriteLine("Cliente eliminado correctamente.");
         }
     }
 }
