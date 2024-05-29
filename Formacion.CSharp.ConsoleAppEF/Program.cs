@@ -9,7 +9,9 @@ namespace Formacion.CSharp.ConsoleAppEF
         static void Main(string[] args)
         {
             //ConsultaConADONET();
-            ConsultaConEF();
+            //ConsultaConEF();
+            //InsertarDatosEF();
+            ActualizarDatosEF();
         }
 
         /// <summary>
@@ -99,12 +101,66 @@ namespace Formacion.CSharp.ConsoleAppEF
             var clientes = context.Customers
                 .ToList();
 
-            foreach (var cliente in clientes)
+            var clientes2 = from r in context.Customers
+                            select r;
+
+            foreach (var cliente in clientes2)
             {
                 Console.Write($"{cliente.CustomerID.PadLeft(5, ' ')}# ");
                 Console.Write($"{cliente.CompanyName.PadRight(40, ' ')} ");
                 Console.WriteLine($"{cliente.Country}");
             }
+        }
+
+        static void InsertarDatosEF()
+        {
+            var context = new NorthwindContext();
+
+            var cliente = new Customer()
+            {
+                CustomerID = "BCR01",
+                CompanyName = "Empresa Uno, SL",
+                ContactName = "Borja Cabeza",
+                ContactTitle = "Generent",
+                Address = "Calle Paraiso, 33",
+                Region = "Madrid",
+                City = "Madrid",
+                PostalCode = "28013",
+                Country = "España",
+                Phone = "900 900 900",
+                Fax = "900 900 910"
+            };
+
+            context.Customers.Add(cliente);
+            context.SaveChanges();
+
+            Console.WriteLine("Registro insertado correctamente.");
+        }
+        
+        static void ActualizarDatosEF()
+        {
+            var context = new NorthwindContext();
+
+            // Opcion A
+            var cliente = context.Customers
+                .Where(r => r.CustomerID == "BCR01")
+                .FirstOrDefault();
+
+            if (cliente == null) Console.WriteLine("NO existe el cliente.");
+            else
+            {
+                cliente.ContactName = "Carlos Sanz";
+                cliente.PostalCode = "28013";
+
+                context.SaveChanges();
+
+                Console.WriteLine("Cliente actualizado correctamente.");
+            }
+        }
+
+        static void EliminarDatosEF()
+        { 
+        
         }
     }
 }
