@@ -232,6 +232,15 @@ namespace Formacion.CSharp.ConsoleAppEF
         {
             var context = new NorthwindContext();
 
+
+            //USESQLSERVER
+            var data = context.Customers.FromSqlRaw("SELECT * FROM dbo.Customers WHERE Country = 'USA'");
+
+            foreach (var item in data)
+                Console.WriteLine($" -> {item.CustomerID}# {item.CompanyName}");
+
+            Console.ReadKey();
+
             // GROUPBY
 
             // SELECT OrderID, SUM(UnitPrice * Quantity) FROM dbo.OrderDetails GROUP BY OrderID
