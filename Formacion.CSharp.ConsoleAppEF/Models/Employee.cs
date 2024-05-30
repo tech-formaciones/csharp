@@ -6,9 +6,7 @@ namespace Formacion.CSharp.ConsoleAppEF.Models;
 public partial class Employee
 {
     public int EmployeeID { get; set; }
-
     public string LastName { get; set; } = null!;
-
     public string FirstName { get; set; } = null!;
 
     public string? Title { get; set; }

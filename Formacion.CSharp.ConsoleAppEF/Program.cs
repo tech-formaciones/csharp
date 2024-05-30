@@ -1,4 +1,5 @@
 ﻿using Formacion.CSharp.ConsoleAppEF.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -12,7 +13,8 @@ namespace Formacion.CSharp.ConsoleAppEF
             //ConsultaConEF();
             //InsertarDatosEF();
             //ActualizarDatosEF();
-            EliminarDatosEF();
+            //EliminarDatosEF();
+            SentenciasAvanzadas();
         }
 
         /// <summary>
@@ -224,6 +226,77 @@ namespace Formacion.CSharp.ConsoleAppEF
             context.SaveChanges();
 
             Console.WriteLine("Cliente eliminado correctamente.");
+        }
+
+        static void SentenciasAvanzadas()
+        {
+            var context = new NorthwindContext();
+
+
+
+            // Listar productos de las categorías Condiments y Seafood
+
+
+
+
+
+            // INCLUDE
+
+            // Listado de Empleados (nombre y apellidos) y listado de pedidos gestionados
+
+            // Opción A
+            var empleados = context.Employees
+                .Select(r => new { r.EmployeeID, r.FirstName, r.LastName });
+
+            foreach (var item in empleados)
+            {
+                var pedidos = context.Orders
+                    .Where(r => r.EmployeeID == item.EmployeeID);
+            }
+
+            // Opción B
+            var empleados2 = context.Employees
+                .Select(r => new { 
+                    r.EmployeeID, 
+                    r.FirstName, 
+                    r.LastName,
+                    Pedidos = context.Orders.Where(s => s.EmployeeID == r.EmployeeID)
+            });
+
+            // Opción C con INCLUDE
+            var empleados3 = context.Employees
+                .Include(r => r.Orders)
+                .Select(r => r);
+
+            var empleados4 = context.Employees
+                .Include(r => r.Orders)
+                .Select(r => new {
+                    r.EmployeeID,
+                    r.FirstName,
+                    r.LastName,
+                    r.Orders
+                });
+
+            foreach (var empleado in empleados4)
+            {
+                Console.WriteLine($"{empleado.FirstName} {empleado.LastName} - {empleado.Orders.Count} pedidos");
+            }
+
+
+            var clientes = context.Customers
+                .Include(r => r.Orders)
+                .ToList();
+
+            foreach(var c in clientes)
+            {
+                Console.WriteLine(c.CompanyName);
+
+                foreach (var p in c.Orders)
+                {
+                    Console.Write($"{p.OrderID} -- ");
+                }
+                Console.WriteLine("");
+            }
         }
     }
 }
