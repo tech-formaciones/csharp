@@ -232,10 +232,111 @@ namespace Formacion.CSharp.ConsoleAppEF
         {
             var context = new NorthwindContext();
 
+            // GROUPBY
+
+            // SELECT OrderID, SUM(UnitPrice * Quantity) FROM dbo.OrderDetails GROUP BY OrderID
+
+            var orders = context.Order_Details
+                .AsEnumerable()
+                .GroupBy(g => g.OrderID)
+                .Select(g => new { OrderID = g.Key, Total = g.Sum(r => r.UnitPrice * r.Quantity) })
+                .ToList();
+
+            var orders2 = context.Order_Details
+                .AsEnumerable()
+                .GroupBy(g => g.OrderID)
+                .Select(g => new { OrderID = g.Key, Total = g.Select(r => r.UnitPrice * r.Quantity).Sum() })
+                .ToList();
+
+            foreach (var item in orders2)
+                Console.WriteLine($"{item.OrderID.ToString().PadLeft(6, ' ')} - {item.Total.ToString("N2").PadLeft(10, ' ')}");
+
+            Console.ReadKey();
+
+            // SELECT Country, COUNT(*) FROM db.Customers GROUP BY Country
+
+            var clientes = context.Customers
+                .AsEnumerable()
+                .GroupBy(g => g.Country)        // La Key es el campo por el que agrupamos
+                .Select(g => g)
+                .ToList();                      // En cada posición de la lista tenemos un grupo
+                                                // Los grupos son colecciones de los elementos de ese grupo
+
+            foreach (var grupo in clientes)
+            {
+                Console.WriteLine($"Clave del Grupo: {grupo.Key}");
+                Console.WriteLine($"Elementos del Grupo: {grupo.Count()}");
+
+                foreach (var item in grupo)
+                    Console.WriteLine($" -> {item.CustomerID}# {item.CompanyName}");
+
+                Console.WriteLine("");
+            }
+
+            Console.ReadKey();
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+            // INTERSECT
+
+            var c1 = context.Order_Details
+                .Include(r => r.Order)
+                .Where(r => r.ProductID == 57)
+                .Select(r => r.Order.CustomerID)
+                .ToList();
+
+
+            var c2 = context.Order_Details
+                .Include(r => r.Order)
+                .Where(r => r.ProductID == 72 && r.Order.OrderDate.Value.Year == 1997)
+                .Select(r => r.Order.CustomerID)
+                .ToList();
+
+            var c3 = c1.Intersect(c2);            
+
+
+            // Clientes que ha pedido el producto 57 y el producto 72 en el año 1997
+
+            var customers = context.Order_Details
+                .Include(r => r.Order)
+                .Where(r => r.ProductID == 57)
+                .Select(r => r.Order.CustomerID)
+                .Intersect(context.Order_Details
+                    .Include(r => r.Order)
+                    .Where(r => r.ProductID == 72 && r.Order.OrderDate.Value.Year == 1997)
+                    .Select(r => r.Order.CustomerID));
+
+            foreach (var id in customers)
+                Console.WriteLine($"{id}");
+
+            Console.ReadKey();
+
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+            // Partiendo de Orders->Listado de pedidos de clientes USA
+            // SELECT * FROM dbo.Orders WHERE CustomerID IN (SELECT CustomerID FROM dbo.Customers WHERE Country = 'USA')
+
+            var pedidos = context.Orders
+                .Include(r => r.Customer)
+                .Where(r => r.Customer.Country == "USA");
 
 
             // Listar productos de las categorías Condiments y Seafood
+            // SELECT * FROM dbo.Products WHERE CategoryID IN (SELECT CategoryID FROM dbo.Categories WHERE CategoryName IN ('Condiments', 'Seafood'))
 
+            var productos1 = context.Products
+                .Include(r => r.Category)
+                .Where(r => (new string[] { "Condiments", "Seafood" }).Contains(r.Category.CategoryName));
+
+            // SELECT * FROM dbo.Products WHERE CategoryID IN (SELECT CategoryID FROM dbo.Categories WHERE CategoryName = 'Condiments' OR CategoryName = 'Seafood')
+
+            var productos2 = context.Products
+                .Include(r => r.Category)
+                .Where(r => r.Category.CategoryName == "Condiments" || r.Category.CategoryName == "Seafood");
 
 
 
@@ -250,7 +351,7 @@ namespace Formacion.CSharp.ConsoleAppEF
 
             foreach (var item in empleados)
             {
-                var pedidos = context.Orders
+                var pedidosCliente = context.Orders
                     .Where(r => r.EmployeeID == item.EmployeeID);
             }
 
@@ -283,11 +384,11 @@ namespace Formacion.CSharp.ConsoleAppEF
             }
 
 
-            var clientes = context.Customers
+            var clientes33 = context.Customers
                 .Include(r => r.Orders)
                 .ToList();
 
-            foreach(var c in clientes)
+            foreach(var c in clientes33)
             {
                 Console.WriteLine(c.CompanyName);
 
