@@ -31,7 +31,7 @@ namespace Formacion.CSharp.ConsoleAppHTTP
             // http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             // Llamada a GET
-            Get4();
+            Get3();
         }
 
         static void Get()
