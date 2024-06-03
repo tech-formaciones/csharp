@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using System.Dynamic;
 using System.Net;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 
 namespace Formacion.CSharp.ConsoleAppHTTP
@@ -29,7 +31,7 @@ namespace Formacion.CSharp.ConsoleAppHTTP
             // http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             // Llamada a GET
-            Get2();
+            Get4();
         }
 
         static void Get()
@@ -175,8 +177,58 @@ namespace Formacion.CSharp.ConsoleAppHTTP
             else Console.WriteLine($"Error: {response.StatusCode}");
         }
 
+        static void Get3()
+        {
+            try
+            {
+                var obj3 = http.GetFromJsonAsync<dynamic>("get?param1=hola").Result;
 
+                if (obj3 is not null)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Datos del Body:");
+                    Console.WriteLine("=============================================");
+                    Console.WriteLine($"URL: {obj3.GetProperty("url")}");
+                    Console.WriteLine($"Param 1: {obj3.GetProperty("args").GetProperty("param1")}");
+                    Console.WriteLine($"Data 1: {obj3.GetProperty("headers").GetProperty("x-data-1")}");
+                }
+                else
+                {
+                    Console.WriteLine("No se puede acceder a la información.");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
+        }
+
+        static void Get4()
+        {
+            try
+            {
+                var obj4 = (IDictionary<string, object>)http.GetFromJsonAsync<ExpandoObject>("get?param1=hola").Result;
+
+                
+
+                if (obj4 is not null)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Datos del Body:");
+                    Console.WriteLine("=============================================");
+                    Console.WriteLine($"URL: {obj4["url"]}");
+                    Console.WriteLine($"Param 1: {obj4["args"]}");
+                    Console.WriteLine($"Param 1: {obj4["headers"]}");
+                }
+                else
+                {
+                    Console.WriteLine("No se puede acceder a la información.");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
+        }
     }
-
-
 }
