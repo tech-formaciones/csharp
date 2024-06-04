@@ -12,7 +12,7 @@ namespace Formacion.CSharp.Ejercicios.ConsoleAppHTTP
         {
             http = new HttpClient();
 
-            ConsultarCodigoPostal3();
+            ConsultarIP();
         }
 
         // Método GET
@@ -81,7 +81,60 @@ namespace Formacion.CSharp.Ejercicios.ConsoleAppHTTP
                 Console.WriteLine($"Error: {e.Message}");
             }
         }
+
+
+        // Método GET
+        // URL: http://ip-api.com/json/193.146.141.207
+        static void ConsultarIP()
+        {
+            Console.Clear();
+            Console.Write("Escribe una dirección IPv4: ");
+            string code = Console.ReadLine();
+
+            // Comprobar que es una dirección IP mediante un expresión regular
+            // 0-255.0-255.0-255.0-255
+
+
+            var response = http.GetAsync($"http://ip-api.com/json/{code}").Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var data = JsonConvert.DeserializeObject<IPInfo>(response.Content.ReadAsStringAsync().Result);
+
+                Console.WriteLine($"Dirección IP: {data.Query}");
+                Console.WriteLine($"Región: {data.RegionName}");
+                Console.WriteLine($"Time Zone: {data.TimeZone}");
+                Console.WriteLine($"ISP: {data.Isp}");
+                Console.WriteLine($"Organización: {data.Org}");    
+            }
+            else Console.WriteLine($"Error: {response.StatusCode}");
+
+        }
+
+        // Método GET
+        // URL: http://ip-api.com/json/193.146.141.207
+        static void ConsultarIP2()
+        {
+            Console.Clear();
+            Console.Write("Escribe una dirección IPv4: ");
+            string code = Console.ReadLine();
+
+            try
+            {
+                var data = http.GetFromJsonAsync<IPInfo>($"http://ip-api.com/json/{code}").Result;
+
+                Console.WriteLine($"Dirección IP: {data.Query}");
+                Console.WriteLine($"Región: {data.RegionName}");
+                Console.WriteLine($"ISP: {data.Isp}");
+                Console.WriteLine($"Organización: {data.Org}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
+        }
     }
+
+
 
 
     public class PostalCodeInfo
@@ -109,6 +162,24 @@ namespace Formacion.CSharp.Ejercicios.ConsoleAppHTTP
         [JsonProperty("state abbreviation")]
         [JsonPropertyName("state abbreviation")]
         public string StateCode { get; set; }
+    }
+
+    public class IPInfo
+    { 
+        public string Status { get; set; }
+        public string Country { get; set; }
+        public string CountryCode { get; set; }
+        public string Region { get; set; }
+        public string RegionName { get; set; }
+        public string City { get; set; }
+        public string Zip { get; set; }
+        public decimal Lat { get; set; }
+        public decimal Lon { get; set; }
+        public string TimeZone { get; set; }
+        public string Isp { get; set; }
+        public string Org { get; set; }
+        public string As { get; set; }
+        public string Query { get; set; }
     }
 
 }
