@@ -19,7 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Formacion.CSharp.Ejercicios
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Formacion.CSharp.ConsoleAppHTTP", "Formacion.CSharp.ConsoleAppHTTP\Formacion.CSharp.ConsoleAppHTTP.csproj", "{D10DFD89-199C-4637-AC25-31E4B53958A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Formacion.CSharp.Ejercicios.ConsoleAppHTTP", "Formacion.CSharp.Ejercicios.ConsoleAppHTTP\Formacion.CSharp.Ejercicios.ConsoleAppHTTP.csproj", "{053783B1-483B-47C6-87A2-A877F01D35FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Formacion.CSharp.Ejercicios.ConsoleAppHTTP", "Formacion.CSharp.Ejercicios.ConsoleAppHTTP\Formacion.CSharp.Ejercicios.ConsoleAppHTTP.csproj", "{053783B1-483B-47C6-87A2-A877F01D35FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Formacion.CSharp.WebApi1", "Formacion.CSharp.WebApi1\Formacion.CSharp.WebApi1.csproj", "{B7FA8F50-4F72-40ED-BC75-210805EEDEC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Formacion.CSharp.Database", "Formacion.CSharp.Database\Formacion.CSharp.Database.csproj", "{D10D619C-37C2-4800-BD1E-A33DBA9380BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +67,14 @@ Global
 		{053783B1-483B-47C6-87A2-A877F01D35FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{053783B1-483B-47C6-87A2-A877F01D35FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{053783B1-483B-47C6-87A2-A877F01D35FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7FA8F50-4F72-40ED-BC75-210805EEDEC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7FA8F50-4F72-40ED-BC75-210805EEDEC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7FA8F50-4F72-40ED-BC75-210805EEDEC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7FA8F50-4F72-40ED-BC75-210805EEDEC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D10D619C-37C2-4800-BD1E-A33DBA9380BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D10D619C-37C2-4800-BD1E-A33DBA9380BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D10D619C-37C2-4800-BD1E-A33DBA9380BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D10D619C-37C2-4800-BD1E-A33DBA9380BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
