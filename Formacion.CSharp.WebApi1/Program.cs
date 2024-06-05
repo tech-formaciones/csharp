@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Formacion.CSharp.Database.Models;
 
 namespace Formacion.CSharp.WebApi1
 {
@@ -15,6 +17,9 @@ namespace Formacion.CSharp.WebApi1
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<NorthwindContext>(options => 
+                options.UseSqlServer(builder.Configuration.GetConnectionString("Northwind")));
 
             var app = builder.Build();
 
