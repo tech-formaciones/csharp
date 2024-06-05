@@ -23,7 +23,7 @@ namespace Formacion.CSharp.WebApi1.Controllers
 
         // GET /api/productos/11
         [HttpGet("{id}")]
-        public ActionResult Get(decimal id)
+        public ActionResult Get(int id)
         {
             if (id < 1) return BadRequest(new { 
                 Message = "Las referencias tienen que ser número positivos.",
@@ -34,7 +34,8 @@ namespace Formacion.CSharp.WebApi1.Controllers
                 .Where(r => r.ProductID == id)
                 .FirstOrDefault();
 
-            return Ok(producto);
+            if (producto == null) return NotFound(new { Message = "El producto no existe." });
+            else return Ok(producto);
         }
 
         // POST /api/productos
@@ -70,21 +71,64 @@ namespace Formacion.CSharp.WebApi1.Controllers
             }            
         }
 
-        // PUT /api/productos
-        [HttpPut()]
-        public ActionResult Put()
+        // PUT /api/productos/11
+        [HttpPut("{id}")]
+        public ActionResult Put(int id, Product producto)
         {
-            return Ok();
+            if (id != producto.ProductID)
+                return BadRequest(new { Message = "Los identificadores no son validos." });
+
+            try
+            {
+                _context.Update(producto);
+                _context.SaveChanges();
+
+                return NoContent();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                if (!ProductoExiste(producto.ProductID))
+                    return Conflict(new { Message = $"El producto {producto.ProductID} no existe." });
+                else
+                    return Conflict(new { e.Message });
+            }
+            catch (Exception e)
+            {
+                return Conflict(new { e.Message });
+            }
         }
 
-        // DELETE /api/productos
-        [HttpDelete()]
-        public ActionResult Delete()
+        // DELETE /api/productos/11
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
         {
-            return Ok();
+            // Opción 1, con FIND
+            var producto = _context.Products
+                .Find(id);
+
+            if (producto == null) return NotFound(new { Message = "El producto no exite." });
+
+            // Opción 2, con WHERE
+            //var producto2 = _context.Products
+            //    .Where(r => r.ProductID == id)
+            //    .FirstOrDefault();
+
+            //if (producto2 == null) return NotFound(new { Message = "El producto no exite." });
+
+            try
+            {
+                _context.Products.Remove(producto);
+                _context.SaveChanges();
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return Conflict(new { e.Message });
+            }
         }
 
-        private bool ProductoExiste(decimal id)
+        private bool ProductoExiste(int id)
         {
             return _context.Products.Any(r => r.ProductID == id);
         }

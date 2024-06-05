@@ -203,32 +203,5 @@ namespace Formacion.CSharp.ConsoleAppHTTP
             }
         }
 
-        static void Get4()
-        {
-            try
-            {
-                var obj4 = (IDictionary<string, object>)http.GetFromJsonAsync<ExpandoObject>("get?param1=hola").Result;
-
-                
-
-                if (obj4 is not null)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("Datos del Body:");
-                    Console.WriteLine("=============================================");
-                    Console.WriteLine($"URL: {obj4["url"]}");
-                    Console.WriteLine($"Param 1: {obj4["args"]}");
-                    Console.WriteLine($"Param 1: {obj4["headers"]}");
-                }
-                else
-                {
-                    Console.WriteLine("No se puede acceder a la información.");
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Error: {e.Message}");
-            }
-        }
     }
 }
