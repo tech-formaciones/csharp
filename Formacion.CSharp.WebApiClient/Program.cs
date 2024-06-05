@@ -1,4 +1,5 @@
-﻿using Formacion.CSharp.Database.Models;
+﻿using Azure;
+using Formacion.CSharp.Database.Models;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
 using System.Text;
@@ -18,7 +19,7 @@ namespace Formacion.CSharp.WebApiClient
 
             try
             {
-                Get();
+                Delete();
             }
             catch (Exception e)
             {
@@ -94,9 +95,51 @@ namespace Formacion.CSharp.WebApiClient
         }
 
         static void Put()
-        { }
+        {
+            Console.Write("Referencia del producto: ");
+            string id = Console.ReadLine();
+
+            try
+            {
+                // Consulta del producto utilizando el API
+                var producto = http.GetFromJsonAsync<Product>($"productos/{id}").Result;
+                Console.WriteLine($"Descripción: {producto.ProductName}");
+
+                // Modificamos
+                Console.Write("Nueva descripción: ");
+                producto.ProductName = Console.ReadLine();
+
+                var response = http.PutAsJsonAsync<Product>($"productos/{id}", producto).Result;
+                
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    Console.WriteLine("Producto modificado correctamente.");
+                else 
+                    Console.WriteLine($"Error: {response.StatusCode}");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         static void Delete()
-        { }
+        {
+            Console.Write("Referencia del producto: ");
+            string id = Console.ReadLine();
+
+            try
+            {
+                var response = http.DeleteAsync($"productos/{id}").Result;
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    Console.WriteLine("Producto eliminado correctamente.");
+                else
+                    Console.WriteLine($"Error: {response.StatusCode}");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
