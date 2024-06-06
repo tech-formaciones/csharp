@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Formacion.CSharp.Database.Models;
+using Formacion.CSharp.WebApi1.Middleware;
 
 namespace Formacion.CSharp.WebApi1
 {
@@ -35,6 +36,9 @@ namespace Formacion.CSharp.WebApi1
             }
 
             app.UseHttpsRedirection();
+
+            app.UseAutorizacion();
+
             app.UseAuthorization();
             app.MapControllers();
 

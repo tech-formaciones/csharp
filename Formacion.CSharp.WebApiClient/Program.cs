@@ -14,12 +14,13 @@ namespace Formacion.CSharp.WebApiClient
         {
             http = new HttpClient();
             http.BaseAddress = new Uri("https://localhost:7082/api/");
+            http.DefaultRequestHeaders.Add("APIKey", "jP8pz9YDl999yNJSdsz8Jdl2cs>y");
 
             Console.Clear();
 
             try
             {
-                Delete();
+                Get();
             }
             catch (Exception e)
             {
