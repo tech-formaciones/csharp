@@ -66,7 +66,15 @@ namespace Formacion.CSharp.WebApiMinimal
                 await context.Products.FindAsync(id) 
                     is Product producto
                         ? Results.Ok(producto)
-                        : Results.NotFound());
+                        : Results.NotFound())
+            .WithName("Products")
+            .WithOpenApi(options => {
+                var parameter = options.Parameters[0];
+                parameter.Description = "Referencia del Producto";
+                parameter.AllowEmptyValue = false;
+
+                return options;
+            });
 
             app.MapPost("/api/v1/productos", (Product producto, NorthwindContext context) => { 
                 context.Products.Add(producto);
@@ -98,6 +106,41 @@ namespace Formacion.CSharp.WebApiMinimal
                 await context.SaveChangesAsync();
 
                 return Results.NoContent();
+            });
+
+            app.MapDelete("/api/v1/productos/{id}", (int id, NorthwindContext context) => {
+                //var producto = context.Products.Where(x => x.ProductID == id).FirstOrDefault();
+                var producto = context.Products.Find(id);
+                if(producto == null)  return Results.NotFound();
+
+                context.Products.Remove(producto);
+                context.SaveChanges();
+
+                return Results.Ok();
+            });
+
+            app.MapDelete("/api/v2/productos/{id}", async (int id, NorthwindContext context) => {
+
+                if (await context.Products.FindAsync(id) is Product producto)
+                {
+                    context.Products.Remove(producto);
+                    await context.SaveChangesAsync();
+
+                    return Results.Ok();
+                }
+                else return Results.NotFound();
+            });
+
+            app.MapGet("/api/v1/demo/{id}", (string id) => {
+                return Results.Ok(new { Message = $"El identificador es {id}" });
+            })
+            .WithName("Demos")
+            .WithOpenApi(options => {
+                var parameter = options.Parameters[0];
+                parameter.Description = "Identificador de prueba";
+                parameter.AllowEmptyValue = false;
+
+                return options;
             });
 
 
