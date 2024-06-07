@@ -2,6 +2,8 @@ using Formacion.CSharp.Database.Models;
 using Formacion.CSharp.WebApiMinimal.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Net;
 
 namespace Formacion.CSharp.WebApiMinimal
 {
@@ -53,7 +55,7 @@ namespace Formacion.CSharp.WebApiMinimal
 
                     if (producto == null) return Results.NotFound();
                     else return Results.Ok(producto);
-                }).AddEndpointFilter<AutorizacionFilter>();
+                });
 
             app.MapGet("/api/v2/productos/{id}", async (int id, NorthwindContext context) => { 
                     var producto = await context.Products
@@ -62,7 +64,7 @@ namespace Formacion.CSharp.WebApiMinimal
 
                     if (producto == null) return Results.NotFound();
                     else return Results.Ok(producto);
-                }).AddEndpointFilter<AutorizacionFilter>();
+                });
 
             app.MapGet("/api/v2.1/productos/{id}", async (int id, NorthwindContext context) => 
                 await context.Products.FindAsync(id) 
@@ -167,6 +169,30 @@ namespace Formacion.CSharp.WebApiMinimal
                 parameter.AllowEmptyValue = false;
 
                 return options;
+            });
+
+            // Elemento de Middleware escrito sin clase, directamente en el Program
+            app.Use(async (context, next) => {
+                context.Response.Headers.Add("x-demo-use", "Pasa por el USE");
+                await next(context);
+            });
+
+            app.Use(async (context, next) => {
+                string clave = builder.Configuration.GetValue<string>("Clave");
+                context.Request.Headers.TryGetValue("APIKey", out var apikey);
+
+                if (apikey != clave)
+                {
+                    context.Response.Headers.Clear();
+                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;  // HTTP 401
+
+                    await context.Response.WriteAsJsonAsync(new
+                    {
+                        Error = HttpStatusCode.Unauthorized.ToString(),
+                        Message = "Unauthorized"
+                    });                    
+                }
+                else await next(context);
             });
 
 
