@@ -1,4 +1,5 @@
 using Formacion.CSharp.Database.Models;
+using Formacion.CSharp.WebApiMinimal.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -52,7 +53,7 @@ namespace Formacion.CSharp.WebApiMinimal
 
                     if (producto == null) return Results.NotFound();
                     else return Results.Ok(producto);
-                });
+                }).AddEndpointFilter<AutorizacionFilter>();
 
             app.MapGet("/api/v2/productos/{id}", async (int id, NorthwindContext context) => { 
                     var producto = await context.Products
@@ -61,7 +62,7 @@ namespace Formacion.CSharp.WebApiMinimal
 
                     if (producto == null) return Results.NotFound();
                     else return Results.Ok(producto);
-                });
+                }).AddEndpointFilter<AutorizacionFilter>();
 
             app.MapGet("/api/v2.1/productos/{id}", async (int id, NorthwindContext context) => 
                 await context.Products.FindAsync(id) 
@@ -132,27 +133,30 @@ namespace Formacion.CSharp.WebApiMinimal
                 else return Results.NotFound();
             });
 
-            app.MapGet("/api/v1/demo/{id}", (string id, [FromHeader] string? data) => {
-                app.Logger.LogInformation("Inicia el EndPoint");
+            app.MapGet("/api/v1/demo/{id}", (string id, HttpContext context) => {
+                app.Logger.LogInformation("Inicia el EndPoint GET");
+
+                context.Request.Headers.TryGetValue("x-data", out var data);
 
                 return Results.Ok(new { 
                     Message = $"El identificador es {id}",
-                    Data = $"El identificador es {data}"
+                    Data = $"El contenido de datos es {data}"
                 });
             })
-            .AddEndpointFilter(async (httpcontext, next) => {
+            .AddEndpointFilter(async (context, next) => {
                 app.Logger.LogInformation("Ejecución Antes 1....");
-                httpcontext.HttpContext.Request.Headers.Add("data", "1234567890");
+                context.HttpContext.Request.Headers.Add("x-data", "1234567890");
 
-                var result = await next(httpcontext);
+                var result = await next(context);
+
                 app.Logger.LogInformation("Ejecución Después 1....");
-                httpcontext.HttpContext.Response.Headers.Add("Filtro-1", "Pasa por el filtro 1");
+                context.HttpContext.Response.Headers.Add("Filtro-1", "Pasa por el filtro 1");
 
                 return result;
             })
-            .AddEndpointFilter(async (httpcontext, next) => {
+            .AddEndpointFilter(async (context, next) => {
                 app.Logger.LogInformation("Ejecución Antes 2....");
-                var result = await next(httpcontext);
+                var result = await next(context);
                 app.Logger.LogInformation("Ejecución Después 2....");
                 return result;
             })
