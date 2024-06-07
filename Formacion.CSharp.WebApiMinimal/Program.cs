@@ -1,4 +1,5 @@
 using Formacion.CSharp.Database.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Formacion.CSharp.WebApiMinimal
@@ -131,8 +132,29 @@ namespace Formacion.CSharp.WebApiMinimal
                 else return Results.NotFound();
             });
 
-            app.MapGet("/api/v1/demo/{id}", (string id) => {
-                return Results.Ok(new { Message = $"El identificador es {id}" });
+            app.MapGet("/api/v1/demo/{id}", (string id, [FromHeader] string? data) => {
+                app.Logger.LogInformation("Inicia el EndPoint");
+
+                return Results.Ok(new { 
+                    Message = $"El identificador es {id}",
+                    Data = $"El identificador es {data}"
+                });
+            })
+            .AddEndpointFilter(async (httpcontext, next) => {
+                app.Logger.LogInformation("Ejecución Antes 1....");
+                httpcontext.HttpContext.Request.Headers.Add("data", "1234567890");
+
+                var result = await next(httpcontext);
+                app.Logger.LogInformation("Ejecución Después 1....");
+                httpcontext.HttpContext.Response.Headers.Add("Filtro-1", "Pasa por el filtro 1");
+
+                return result;
+            })
+            .AddEndpointFilter(async (httpcontext, next) => {
+                app.Logger.LogInformation("Ejecución Antes 2....");
+                var result = await next(httpcontext);
+                app.Logger.LogInformation("Ejecución Después 2....");
+                return result;
             })
             .WithName("Demos")
             .WithOpenApi(options => {
