@@ -180,8 +180,9 @@ namespace Formacion.CSharp.WebApiMinimal
             app.Use(async (context, next) => {
                 string clave = builder.Configuration.GetValue<string>("Clave");
                 context.Request.Headers.TryGetValue("APIKey", out var apikey);
+                context.Request.Query.TryGetValue("APIKey", out var apikey2);
 
-                if (apikey != clave)
+                if (apikey != clave && apikey2 != clave)
                 {
                     context.Response.Headers.Clear();
                     context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;  // HTTP 401
