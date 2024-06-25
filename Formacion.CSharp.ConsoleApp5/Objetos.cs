@@ -94,15 +94,20 @@ namespace Formacion.CSharp.ConsoleApp5
         public int Ruedas { get; set; }
         public void Iniciar() => Console.WriteLine("Coche, Iniciar");
         public void Parar() => Console.WriteLine("Coche, Parar");
+
+        void IVehiculo.Iniciar() => Console.WriteLine("Coche como Vehículo, Iniciar");
+        void IVehiculo.Parar() => Console.WriteLine("Coche como Vehículo, Parar");
     }
 
     public class Avion : IVehiculo
     {
         public string Nombre { get; set; }
         public int Ruedas { get; set; }
-        public void Iniciar() => Console.WriteLine("Avión, Iniciar");
+        public int Potencia { get; set; }
+        public void Iniciar() => Console.WriteLine($"Avión, Iniciar - potencia {Potencia}");
+        void IVehiculo.Iniciar() => Console.WriteLine($"Avión, Iniciar");
         public void Parar() => Console.WriteLine("Avión, Parar");
-        public void Despegar() => Console.WriteLine("Avión, Parar");
+        public void Despegar() => Console.WriteLine("Avión, Despegar");
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////
@@ -132,4 +137,95 @@ namespace Formacion.CSharp.ConsoleApp5
             return $"{this.Nombre} {this.Apellidos}";
         }
     }
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////
+
+    public class DemoString
+    {
+        public string Data { get; set; }
+        public void Metodo() => Console.WriteLine($"Texto: {Data}");
+        public DemoString() { }
+        public DemoString(string data) 
+        { 
+            this.Data = data;
+        }
+    }
+    public class DemoInt
+    {
+        public int Data { get; set; }
+        public void Metodo() => Console.WriteLine($"Número: {Data.ToString()}");
+        public DemoInt() { }
+        public DemoInt(int data)
+        {
+            this.Data = data;
+        }
+    }
+    public class DemoAlumno
+    {
+        public Alumno Data { get; set; }
+        public void Metodo() => Console.WriteLine($"Alumno: {Data.Nombre} {Data.Apellidos}");
+        public DemoAlumno() { }
+        public DemoAlumno(Alumno data)
+        {
+            this.Data = data;
+        }
+    }
+
+    public class DemoGenerica<T>
+    {
+        public T Data { get; set; }
+
+        public void Metodo()
+        {
+            switch (typeof(T).Name)
+            {
+                case "String":
+                    Console.WriteLine($"Texto: {Data}");
+                    break;
+                case "Int32":
+                    Console.WriteLine($"Número: {Data}");
+                    break;
+                case "Formacion.CSharp.ConsoleApp5.Alumno":
+                    dynamic temp = this.Data;
+                    Console.WriteLine($"Alumno: {temp.Nombre} {temp.Apellidos}");
+                    break;
+                default:
+                    Console.WriteLine($"{typeof(T).Name}: {Data}");
+                    break;
+            }
+        }
+
+        public DemoGenerica() { }
+        public DemoGenerica(T data) 
+        { 
+            this.Data = data;
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////
+
+    public static class StringExtensions
+    {
+        public static string ToTitle(this string texto)
+        {
+            if (string.IsNullOrEmpty(texto)) return texto;
+            else return System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(texto);
+        }
+
+        public static int WordCount(this string texto)
+        {
+            if (string.IsNullOrEmpty(texto)) return 0;
+            else return texto.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
+        }
+    }
+
+    public static class IntExtensions
+    {
+        public static int Count(this int numero)
+        {
+            return numero.ToString().Length;
+        }
+    }
+
 }
